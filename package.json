@@ -1,0 +1,36 @@
+{
+  "name": "aos-server-utils",
+  "version": "0.0.1",
+  "description": "Apconic server utilities. Contains Custom errors, keycloak auth wrapper etc",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rimraf dist && tsc",
+    "prepublish": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/apconic/aos-server-utils.git"
+  },
+  "keywords": [
+    "Apconic"
+  ],
+  "author": "Kuldeep Singh",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/apconic/aos-server-utils/issues"
+  },
+  "homepage": "https://github.com/apconic/aos-server-utils#readme",
+  "devDependencies": {
+    "@types/express": "^4.16.0",
+    "@types/jws": "^3.1.1",
+    "rimraf": "^2.6.2",
+    "typescript": "^3.0.1"
+  },
+  "dependencies": {
+    "express": "^4.16.3",
+    "jws": "^3.1.5",
+    "keycloak-connect": "^4.3.0"
+  }
+}
