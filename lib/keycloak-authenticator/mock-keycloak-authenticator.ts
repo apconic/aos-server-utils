@@ -1,6 +1,8 @@
 import { Authenticator, KeycloakAuth } from './';
 import { Request, Response, NextFunction } from 'express';
+import { injectable } from 'inversify';
 
+@injectable()
 export class MockKeycloakAuthenticator implements Authenticator {
   public getAuthenticator(): KeycloakAuth {
     const mockKeycloak: KeycloakAuth = {

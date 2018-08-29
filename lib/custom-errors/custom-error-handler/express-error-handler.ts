@@ -19,7 +19,9 @@ export function errorHandler(
       response.status(error.httpCode()).json(error.errorMessage());
       break;
     case error.message === 'keycloak.redirectToLogin is not a function':
+      error.message = 'Authentication failed. User was not logged in.';
       response.status(403).json({ message: 'User is not logged in' });
+      break;
     default:
       response.status(500).json({
         message: 'Internal server error'
