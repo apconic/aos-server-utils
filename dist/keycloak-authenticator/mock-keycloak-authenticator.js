@@ -23,8 +23,8 @@ let MockKeycloakAuthenticator = class MockKeycloakAuthenticator {
         };
         return mockKeycloak;
     }
-    getUser(token) {
-        return 'integrationTestUser';
+    getUser(request) {
+        return 'mock-user';
     }
 };
 MockKeycloakAuthenticator = __decorate([

@@ -21,7 +21,7 @@ export class MockKeycloakAuthenticator implements Authenticator {
     return mockKeycloak;
   }
 
-  public getUser(token: string): null | string {
-    return 'integrationTestUser';
+  public getUser(request: Request): null | string {
+    return 'mock-user';
   }
 }

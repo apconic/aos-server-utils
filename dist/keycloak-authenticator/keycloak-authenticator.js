@@ -23,12 +23,22 @@ let KeycloakAuthenticator = class KeycloakAuthenticator {
     getAuthenticator() {
         return this.authenticator;
     }
-    getUser(token) {
-        const payload = jws_1.default.decode(token).payload;
-        if (!payload || !payload.preferred_username) {
+    getUser(request) {
+        try {
+            if (!request.header('Authorization')) {
+                return null;
+            }
+            // @ts-ignore
+            const token = request.header('Authorization').substring('Bearer '.length);
+            const payload = jws_1.default.decode(token).payload;
+            if (!payload || !payload.preferred_username) {
+                return null;
+            }
+            return payload.preferred_username;
+        }
+        catch (err) {
             return null;
         }
-        return payload.preferred_username;
     }
 };
 KeycloakAuthenticator = __decorate([

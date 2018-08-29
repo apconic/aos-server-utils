@@ -3,6 +3,7 @@ import jws from 'jws';
 import KeycloakConnect from 'keycloak-connect';
 import { injectable } from 'inversify';
 import { Authenticator, KeycloakAuth } from './';
+import { Request } from 'express';
 
 @injectable()
 export class KeycloakAuthenticator implements Authenticator {
@@ -16,12 +17,21 @@ export class KeycloakAuthenticator implements Authenticator {
     return this.authenticator;
   }
 
-  public getUser(token: string): null | string {
-    const payload = jws.decode(token).payload;
-    if (!payload || !payload.preferred_username) {
+  public getUser(request: Request): null | string {
+    try {
+      if (!request.header('Authorization')) {
+        return null;
+      }
+      // @ts-ignore
+      const token = request.header('Authorization').substring('Bearer '.length);
+      const payload = jws.decode(token).payload;
+      if (!payload || !payload.preferred_username) {
+        return null;
+      }
+      return payload.preferred_username;
+    } catch (err) {
       return null;
     }
-    return payload.preferred_username;
   }
 }
 

@@ -49,12 +49,7 @@ export default class RouteManager {
             if (!controller || !controller[propertyKey]) {
               return response.status(404).send({ message: 'Invalid path' });
             }
-            const context = new Context(
-              authenticator.getUser(
-                // @ts-ignore
-                request.headers.authorization.substring('Bearer '.length)
-              )
-            );
+            const context = new Context(authenticator.getUser(request));
             await controller[propertyKey](request, response, context);
           } catch (err) {
             next(err);
@@ -77,12 +72,7 @@ export default class RouteManager {
             if (!controller || !controller[propertyKey]) {
               return response.status(404).send({ message: 'Invalid path' });
             }
-            const context = new Context(
-              authenticator.getUser(
-                // @ts-ignore
-                request.headers.authorization.substring('Bearer '.length)
-              )
-            );
+            const context = new Context(authenticator.getUser(request));
             await controller[propertyKey](request, response, context);
           } catch (err) {
             next(err);
@@ -106,12 +96,7 @@ export default class RouteManager {
             if (!controller || !controller[propertyKey]) {
               return response.status(404).send({ message: 'Invalid path' });
             }
-            const context = new Context(
-              authenticator.getUser(
-                // @ts-ignore
-                request.headers.authorization.substring('Bearer '.length)
-              )
-            );
+            const context = new Context(authenticator.getUser(request));
             await controller[propertyKey](request, response, context);
           } catch (err) {
             next(err);
