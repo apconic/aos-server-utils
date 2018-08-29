@@ -6,3 +6,4 @@ Object.defineProperty(exports, "__esModule", { value: true });
 require("reflect-metadata");
 __export(require("./custom-errors"));
 __export(require("./keycloak-authenticator"));
+__export(require("./simple-express-decorators"));

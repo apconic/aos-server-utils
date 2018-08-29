@@ -1,6 +1,6 @@
 {
   "name": "aos-server-utils",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Apconic server utilities. Contains Custom errors, keycloak auth wrapper etc",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
