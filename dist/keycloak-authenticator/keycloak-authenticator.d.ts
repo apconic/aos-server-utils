@@ -1,7 +1,7 @@
-import { Authenticator, KeycloakConfig, KeycloakAuth } from './';
+import { Authenticator, KeycloakAuth } from './';
 export declare class KeycloakAuthenticator implements Authenticator {
     private authenticator;
-    constructor(config: KeycloakConfig);
+    constructor();
     getAuthenticator(): KeycloakAuth;
     getUser(token: string): null | string;
 }
