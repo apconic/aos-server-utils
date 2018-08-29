@@ -1,13 +1,13 @@
 import jws from 'jws';
 // @ts-ignore
 import KeycloakConnect from 'keycloak-connect';
-import { Authenticator, KeycloakConfig, KeycloakAuth } from './';
+import { Authenticator, KeycloakAuth } from './';
 
 export class KeycloakAuthenticator implements Authenticator {
   private authenticator: KeycloakAuth;
 
-  constructor(config: KeycloakConfig) {
-    this.authenticator = new KeycloakConnect({}, config);
+  constructor() {
+    this.authenticator = new KeycloakConnect({}, buildConfig());
   }
 
   public getAuthenticator(): KeycloakAuth {
@@ -21,4 +21,23 @@ export class KeycloakAuthenticator implements Authenticator {
     }
     return payload.preferred_username;
   }
+}
+
+function buildConfig() {
+  return {
+    realm: process.env.KEYCLOAK_REALM as string | 'goodstrack',
+    resource: process.env.KEYCLOAK_RESOURCE as string | 'admin-server',
+    'realm-public-key': process.env.KEYCLOAK_REALM_PUBLIC_KEY as string | null,
+    'auth-server-url': process.env.KEYCLOAK_AUTH_SERVER_URL as
+      | string
+      | 'http://13.127.63.157:8080/auth',
+    'ssl-required': process.env.KEYCLOAK_SSL_REQUIRED as string | 'external',
+    'use-resource-role-mappings': process.env
+      .KEYCLOAK_USE_RESOURCE_ROLE_MAPPINGS as string | 'false',
+    'public-client': process.env.KEYCLOAK_PUBLIC_CLIENT as string | 'false',
+    'enable-cors': process.env.KEYCLOAK_ENABLE_CORS as string | 'false',
+    'cors-max-age': process.env.KEYCLOAK_CORS_MAX_AGE as string | null,
+    'bearer-only': process.env.KEYCLOAK_BEARER_ONLY as boolean | 'true',
+    'proxy-url': process.env.KEYCLOAK_PROXY_URL as string | null
+  };
 }
