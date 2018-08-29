@@ -13,3 +13,6 @@ Contains utilities such as Custom Errors, Keycloak Wrapper etc which are shared 
     An _injectable_ (refer: [InversifyJS](https://github.com/inversify/InversifyJS)) Authenticator class to be used for authentication on API requests.
     Also contains a Mock Authenticator which can be used during development.  
     [More info](./lib/keycloak-authenticator/readme.md)
+
+3.  **Simple Express Decorators**
+    [More info](./lib/simple-express-decorators/README.md)

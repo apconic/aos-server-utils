@@ -1,6 +1,8 @@
+import { Request } from 'express';
+
 export interface Authenticator {
   getAuthenticator(): KeycloakAuth;
-  getUser(token: string): null | string;
+  getUser(request: Request): null | string;
 }
 
 export interface KeycloakAuth {
