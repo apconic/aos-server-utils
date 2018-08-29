@@ -4,8 +4,8 @@ export interface Authenticator {
 }
 
 export interface KeycloakAuth {
-  middleware(options: any): any;
-  protect(role: Function | string): any;
+  middleware(options?: any): any;
+  protect(role?: Function | string): any;
 }
 
 export { KeycloakAuthenticator } from './keycloak-authenticator';

@@ -1,8 +1,10 @@
 import jws from 'jws';
 // @ts-ignore
 import KeycloakConnect from 'keycloak-connect';
+import { injectable } from 'inversify';
 import { Authenticator, KeycloakAuth } from './';
 
+@injectable()
 export class KeycloakAuthenticator implements Authenticator {
   private authenticator: KeycloakAuth;
 
