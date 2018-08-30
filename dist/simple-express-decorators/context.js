@@ -10,4 +10,4 @@ class Context {
         this.user = user;
     }
 }
-exports.Context = Context;
+exports.default = Context;

@@ -2,7 +2,7 @@ import MethodParams from './method-params';
 import { Container } from 'inversify';
 import { Request, Response, NextFunction, Router } from 'express';
 import { Authenticator, KeycloakAuth } from '../keycloak-authenticator';
-import { Context } from './context';
+import Context from './context';
 
 export default class RouteManager {
   private static getMethodParams: Array<MethodParams> = [];

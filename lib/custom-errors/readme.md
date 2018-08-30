@@ -1,4 +1,4 @@
-**CustomErrors**
+## **CustomErrors**
 
 A new instance of these Extended Error classes can be thrown when appropriate error is encountered.  
 Usage:
@@ -26,6 +26,7 @@ Custom Error classes which can be imported are:
 ## **errorHandler**
 
 A handler to be used as express middleware to send appropriate http code and message to client.  
+**Use as the last middleware**  
 Usage:
 
 ```Typescript
@@ -36,9 +37,9 @@ import { Authenticator, errorHandler } from 'aos-server-utils';
 
     server.use(cors());
     server.use(bodyParser.json());
-    server.createRouter('/v1/', auth.getAuthenticator().protect);
+    server.createRouter('/v1/', auth);
 
-    // Use errorHandler as the last middleware
+    // IMPORTANT => Use errorHandler as the last middleware
     server.use((err, req, res, next) => {
       // Log error messages if required.
       // errorHandler does not provide logging.
@@ -55,17 +56,4 @@ import { Authenticator, errorHandler } from 'aos-server-utils';
       errorHandler(err, req, res, next);
     });
     server.start();
-```
-
-Inside controllers:
-
-```Typescript
-@get('/load')
-  public async getSettings(req: Request, res: Response, next: NextFunction) {
-    try {
-      res.status(200).json({message: 'Hello'});
-    } catch (err) {
-      next(err);
-    }
-  }
 ```

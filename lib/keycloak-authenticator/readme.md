@@ -13,7 +13,7 @@ import {
 
 container
     .bind<Authenticator>(TYPES.Authenticator)
-    // Bind which MockKeycloakAuthenticator to mock during development
+    // Bind with MockKeycloakAuthenticator to mock Keycloak during development
     .to(KeycloakAuthenticator)
     .inSingletonScope();
 ```
@@ -26,5 +26,19 @@ import { Authenticator} from 'aos-server-utils';
 
 const auth: Authenticator = container.get(TYPES.Authenticator);
 server.use(auth.getAuthenticator().middleware());
-server.createRouter('/v1/', auth.getAuthenticator().protect);
+server.createRouter('/v1/', auth);
+```
+
+To get user in your controller, make sure your last parameter is 'context'.  
+Example:
+
+```Typescript
+@post('/update')
+  public async updateSettings(req: Request, res: Response, context: any) {
+    const response = await this.settingService.modifySettings(
+      context.user,
+      req.body
+    );
+    res.status(200).json(response);
+  }
 ```

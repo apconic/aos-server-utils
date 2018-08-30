@@ -1,4 +1,6 @@
-# aos-server-utils
+# **aos-server-utils**
+
+# _Published Version: 0.1.1_
 
 Contains utilities such as Custom Errors, Keycloak Wrapper etc which are shared by various projects at [Apconic](http://www.apconic.com).
 
@@ -14,5 +16,6 @@ Contains utilities such as Custom Errors, Keycloak Wrapper etc which are shared 
     Also contains a Mock Authenticator which can be used during development.  
     [More info](./lib/keycloak-authenticator/readme.md)
 
-3.  **Simple Express Decorators**
+3.  **Simple Express Decorators**  
+    Very simple implementation of express decorators. Depends on inversify and Keycloak Authenticator (Module 2).  
     [More info](./lib/simple-express-decorators/README.md)
