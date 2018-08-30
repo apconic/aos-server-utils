@@ -7,8 +7,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const context_1 = require("./context");
+const context_1 = __importDefault(require("./context"));
 class RouteManager {
     constructor(router, container) {
         this.router = router;
@@ -39,7 +42,7 @@ class RouteManager {
                     if (!controller || !controller[propertyKey]) {
                         return response.status(404).send({ message: 'Invalid path' });
                     }
-                    const context = new context_1.Context(authenticator.getUser(request));
+                    const context = new context_1.default(authenticator.getUser(request));
                     yield controller[propertyKey](request, response, context);
                 }
                 catch (err) {
@@ -59,7 +62,7 @@ class RouteManager {
                     if (!controller || !controller[propertyKey]) {
                         return response.status(404).send({ message: 'Invalid path' });
                     }
-                    const context = new context_1.Context(authenticator.getUser(request));
+                    const context = new context_1.default(authenticator.getUser(request));
                     yield controller[propertyKey](request, response, context);
                 }
                 catch (err) {
@@ -79,7 +82,7 @@ class RouteManager {
                     if (!controller || !controller[propertyKey]) {
                         return response.status(404).send({ message: 'Invalid path' });
                     }
-                    const context = new context_1.Context(authenticator.getUser(request));
+                    const context = new context_1.default(authenticator.getUser(request));
                     yield controller[propertyKey](request, response, context);
                 }
                 catch (err) {

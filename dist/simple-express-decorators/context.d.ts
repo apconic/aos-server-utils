@@ -3,7 +3,7 @@
  * @export
  * @class Context
  */
-export declare class Context {
+export default class Context {
     readonly user: null | string;
     constructor(user: null | string);
 }
