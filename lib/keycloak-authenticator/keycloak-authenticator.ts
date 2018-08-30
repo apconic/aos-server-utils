@@ -38,7 +38,7 @@ export class KeycloakAuthenticator implements Authenticator {
 function buildConfig() {
   return {
     realm: process.env.KEYCLOAK_REALM as string | 'goodstrack',
-    resource: process.env.KEYCLOAK_RESOURCE as string | 'admin-server',
+    clientId: process.env.KEYCLOAK_CLIENT_ID as string | 'admin-server',
     'realm-public-key': process.env.KEYCLOAK_REALM_PUBLIC_KEY as string | null,
     'auth-server-url': process.env.KEYCLOAK_AUTH_SERVER_URL as
       | string
