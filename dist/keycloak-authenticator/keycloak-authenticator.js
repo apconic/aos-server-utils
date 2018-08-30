@@ -49,7 +49,7 @@ exports.KeycloakAuthenticator = KeycloakAuthenticator;
 function buildConfig() {
     return {
         realm: process.env.KEYCLOAK_REALM,
-        resource: process.env.KEYCLOAK_RESOURCE,
+        clientId: process.env.KEYCLOAK_CLIENT_ID,
         'realm-public-key': process.env.KEYCLOAK_REALM_PUBLIC_KEY,
         'auth-server-url': process.env.KEYCLOAK_AUTH_SERVER_URL,
         'ssl-required': process.env.KEYCLOAK_SSL_REQUIRED,
