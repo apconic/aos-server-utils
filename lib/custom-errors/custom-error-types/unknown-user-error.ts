@@ -12,7 +12,7 @@ export class UnknownUserError extends Error implements CustomError {
 
   public errorMessage(): ErrorMessage {
     return {
-      message: 'User not found from request'
+      message: this.message
     };
   }
 }

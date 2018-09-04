@@ -10,7 +10,7 @@ class UnknownUserError extends Error {
     }
     errorMessage() {
         return {
-            message: 'User not found from request'
+            message: this.message
         };
     }
 }

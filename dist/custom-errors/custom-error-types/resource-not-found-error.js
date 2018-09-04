@@ -10,7 +10,7 @@ class ResourceNotFoundError extends Error {
     }
     errorMessage() {
         return {
-            message: 'Resource not found'
+            message: this.message
         };
     }
 }
