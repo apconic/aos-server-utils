@@ -12,7 +12,7 @@ export class ResourceNotFoundError extends Error implements CustomError {
 
   public errorMessage(): ErrorMessage {
     return {
-      message: 'Resource not found'
+      message: this.message
     };
   }
 }

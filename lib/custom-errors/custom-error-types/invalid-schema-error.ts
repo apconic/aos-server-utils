@@ -12,7 +12,7 @@ export class InvalidSchemaError extends Error implements CustomError {
 
   public errorMessage(): ErrorMessage {
     return {
-      message: 'Invalid request. Schema validation failed.'
+      message: this.message
     };
   }
 }

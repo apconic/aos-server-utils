@@ -10,7 +10,7 @@ class InvalidSchemaError extends Error {
     }
     errorMessage() {
         return {
-            message: 'Invalid request. Schema validation failed.'
+            message: this.message
         };
     }
 }
