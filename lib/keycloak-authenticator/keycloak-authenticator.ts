@@ -19,11 +19,12 @@ export class KeycloakAuthenticator implements Authenticator {
 
   public getUser(request: Request): null | string {
     try {
-      if (!request.header('Authorization')) {
+      if (!request.headers || !request.headers.authorization) {
         return null;
       }
-      // @ts-ignore
-      const token = request.header('Authorization').substring('Bearer '.length);
+
+      const authHeader: string = request.headers.authorization;
+      const token = authHeader.substring('Bearer '.length);
       const payload = jws.decode(token).payload;
       if (!payload || !payload.preferred_username) {
         return null;

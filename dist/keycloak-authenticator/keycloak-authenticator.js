@@ -25,11 +25,11 @@ let KeycloakAuthenticator = class KeycloakAuthenticator {
     }
     getUser(request) {
         try {
-            if (!request.header('Authorization')) {
+            if (!request.headers || !request.headers.authorization) {
                 return null;
             }
-            // @ts-ignore
-            const token = request.header('Authorization').substring('Bearer '.length);
+            const authHeader = request.headers.authorization;
+            const token = authHeader.substring('Bearer '.length);
             const payload = jws_1.default.decode(token).payload;
             if (!payload || !payload.preferred_username) {
                 return null;
