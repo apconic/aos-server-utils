@@ -1,9 +1,9 @@
 import { CustomError, ErrorMessage } from './';
 
-export class UnknownUserError extends Error implements CustomError {
+export class AccessDeniedError extends Error implements CustomError {
   constructor(message: string) {
     super(message);
-    Object.setPrototypeOf(this, UnknownUserError.prototype);
+    Object.setPrototypeOf(this, AccessDeniedError.prototype);
   }
 
   public httpCode(): number {

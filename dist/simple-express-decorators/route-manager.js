@@ -12,6 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const context_1 = __importDefault(require("./context"));
+const custom_errors_1 = require("../custom-errors");
 class RouteManager {
     constructor(router, container) {
         this.router = router;
@@ -36,13 +37,16 @@ class RouteManager {
             const targetController = routeControllerConfig.name;
             const routePath = `${routeControllerConfig.basePath}${path}`;
             const auth = authenticator.getAuthenticator();
-            this.router.get(routePath, role ? auth.protect(role) : auth.protect(), (request, response, next) => __awaiter(this, void 0, void 0, function* () {
+            this.router.get(routePath, auth.protect(), (request, response, next) => __awaiter(this, void 0, void 0, function* () {
                 try {
                     const controller = this.container.get(targetController);
                     if (!controller || !controller[propertyKey]) {
                         return response.status(404).send({ message: 'Invalid path' });
                     }
                     const context = new context_1.default(authenticator.getUser(request));
+                    if (role && !authenticator.hasRole(request, role)) {
+                        throw new custom_errors_1.AccessDeniedError(`User: ${context.user} does not have appropriate role to access resource.`);
+                    }
                     yield controller[propertyKey](request, response, context);
                 }
                 catch (err) {
@@ -56,13 +60,16 @@ class RouteManager {
             const targetController = routeControllerConfig.name;
             const routePath = `${routeControllerConfig.basePath}${path}`;
             const auth = authenticator.getAuthenticator();
-            this.router.post(routePath, role ? auth.protect(role) : auth.protect(), (request, response, next) => __awaiter(this, void 0, void 0, function* () {
+            this.router.post(routePath, auth.protect(), (request, response, next) => __awaiter(this, void 0, void 0, function* () {
                 try {
                     const controller = this.container.get(targetController);
                     if (!controller || !controller[propertyKey]) {
                         return response.status(404).send({ message: 'Invalid path' });
                     }
                     const context = new context_1.default(authenticator.getUser(request));
+                    if (role && !authenticator.hasRole(request, role)) {
+                        throw new custom_errors_1.AccessDeniedError(`User: ${context.user} does not have appropriate role to access resource.`);
+                    }
                     yield controller[propertyKey](request, response, context);
                 }
                 catch (err) {
@@ -76,13 +83,16 @@ class RouteManager {
             const targetController = routeControllerConfig.name;
             const routePath = `${routeControllerConfig.basePath}${path}`;
             const auth = authenticator.getAuthenticator();
-            this.router.delete(routePath, role ? auth.protect(role) : auth.protect(), (request, response, next) => __awaiter(this, void 0, void 0, function* () {
+            this.router.delete(routePath, auth.protect(), (request, response, next) => __awaiter(this, void 0, void 0, function* () {
                 try {
                     const controller = this.container.get(targetController);
                     if (!controller || !controller[propertyKey]) {
                         return response.status(404).send({ message: 'Invalid path' });
                     }
                     const context = new context_1.default(authenticator.getUser(request));
+                    if (role && !authenticator.hasRole(request, role)) {
+                        throw new custom_errors_1.AccessDeniedError(`User: ${context.user} does not have appropriate role to access resource.`);
+                    }
                     yield controller[propertyKey](request, response, context);
                 }
                 catch (err) {

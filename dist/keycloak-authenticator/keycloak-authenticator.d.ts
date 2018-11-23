@@ -5,4 +5,5 @@ export declare class KeycloakAuthenticator implements Authenticator {
     constructor();
     getAuthenticator(): KeycloakAuth;
     getUser(request: Request): null | string;
+    hasRole(request: Request, role: string | string[]): boolean;
 }

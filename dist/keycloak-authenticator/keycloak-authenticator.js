@@ -40,6 +40,26 @@ let KeycloakAuthenticator = class KeycloakAuthenticator {
             return null;
         }
     }
+    hasRole(request, role) {
+        try {
+            // @ts-ignore
+            const authenticator = request.kauth.grant.access_token;
+            if (typeof role === 'string') {
+                return authenticator.hasRole(role);
+            }
+            let userHasRole = false;
+            for (let i = 0; i < role.length; i = i + 1) {
+                if (authenticator.hasRole(role[i])) {
+                    userHasRole = true;
+                    break;
+                }
+            }
+            return userHasRole;
+        }
+        catch (err) {
+            return false;
+        }
+    }
 };
 KeycloakAuthenticator = __decorate([
     inversify_1.injectable(),

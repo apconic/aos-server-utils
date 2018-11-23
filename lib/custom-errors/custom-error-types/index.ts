@@ -10,4 +10,4 @@ export interface ErrorMessage {
 
 export { InvalidSchemaError } from './invalid-schema-error';
 export { ResourceNotFoundError } from './resource-not-found-error';
-export { UnknownUserError } from './unknown-user-error';
+export { AccessDeniedError } from './access-denied-error';

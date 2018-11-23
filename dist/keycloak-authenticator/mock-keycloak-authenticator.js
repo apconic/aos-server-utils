@@ -26,6 +26,9 @@ let MockKeycloakAuthenticator = class MockKeycloakAuthenticator {
     getUser(request) {
         return 'mock-user';
     }
+    hasRole(request, role) {
+        return true;
+    }
 };
 MockKeycloakAuthenticator = __decorate([
     inversify_1.injectable()

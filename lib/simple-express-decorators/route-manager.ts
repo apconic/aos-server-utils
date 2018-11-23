@@ -3,6 +3,7 @@ import { Container } from 'inversify';
 import { Request, Response, NextFunction, Router } from 'express';
 import { Authenticator, KeycloakAuth } from '../keycloak-authenticator';
 import Context from './context';
+import { AccessDeniedError } from '../custom-errors';
 
 export default class RouteManager {
   private static getMethodParams: Array<MethodParams> = [];
@@ -42,7 +43,7 @@ export default class RouteManager {
       const auth: KeycloakAuth = authenticator.getAuthenticator();
       this.router.get(
         routePath,
-        role ? auth.protect(role) : auth.protect(),
+        auth.protect(),
         async (request: Request, response: Response, next: NextFunction) => {
           try {
             const controller: any = this.container.get(targetController);
@@ -50,6 +51,13 @@ export default class RouteManager {
               return response.status(404).send({ message: 'Invalid path' });
             }
             const context = new Context(authenticator.getUser(request));
+            if (role && !authenticator.hasRole(request, role)) {
+              throw new AccessDeniedError(
+                `User: ${
+                  context.user
+                } does not have appropriate role to access resource.`
+              );
+            }
             await controller[propertyKey](request, response, context);
           } catch (err) {
             next(err);
@@ -65,7 +73,7 @@ export default class RouteManager {
       const auth: KeycloakAuth = authenticator.getAuthenticator();
       this.router.post(
         routePath,
-        role ? auth.protect(role) : auth.protect(),
+        auth.protect(),
         async (request: Request, response: Response, next: NextFunction) => {
           try {
             const controller: any = this.container.get(targetController);
@@ -73,6 +81,13 @@ export default class RouteManager {
               return response.status(404).send({ message: 'Invalid path' });
             }
             const context = new Context(authenticator.getUser(request));
+            if (role && !authenticator.hasRole(request, role)) {
+              throw new AccessDeniedError(
+                `User: ${
+                  context.user
+                } does not have appropriate role to access resource.`
+              );
+            }
             await controller[propertyKey](request, response, context);
           } catch (err) {
             next(err);
@@ -89,7 +104,7 @@ export default class RouteManager {
       const auth: KeycloakAuth = authenticator.getAuthenticator();
       this.router.delete(
         routePath,
-        role ? auth.protect(role) : auth.protect(),
+        auth.protect(),
         async (request: Request, response: Response, next: NextFunction) => {
           try {
             const controller: any = this.container.get(targetController);
@@ -97,6 +112,13 @@ export default class RouteManager {
               return response.status(404).send({ message: 'Invalid path' });
             }
             const context = new Context(authenticator.getUser(request));
+            if (role && !authenticator.hasRole(request, role)) {
+              throw new AccessDeniedError(
+                `User: ${
+                  context.user
+                } does not have appropriate role to access resource.`
+              );
+            }
             await controller[propertyKey](request, response, context);
           } catch (err) {
             next(err);

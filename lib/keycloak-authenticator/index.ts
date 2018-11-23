@@ -3,6 +3,7 @@ import { Request } from 'express';
 export interface Authenticator {
   getAuthenticator(): KeycloakAuth;
   getUser(request: Request): null | string;
+  hasRole(request: Request, role: string | string[]): boolean;
 }
 
 export interface KeycloakAuth {

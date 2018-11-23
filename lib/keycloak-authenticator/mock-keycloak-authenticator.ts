@@ -24,4 +24,8 @@ export class MockKeycloakAuthenticator implements Authenticator {
   public getUser(request: Request): null | string {
     return 'mock-user';
   }
+
+  public hasRole(request: Request, role: string | string[]): boolean {
+    return true;
+  }
 }
