@@ -36,27 +36,30 @@ export default class RouteManager {
 
   configure(authenticator: Authenticator) {
     RouteManager.getMethodParams.forEach(params => {
-      const { target, path, role, propertyKey } = params;
+      const { target, path, role, isSecure, propertyKey } = params;
       const routeControllerConfig = RouteManager.routeControllers.get(target);
       const targetController = routeControllerConfig.name;
       const routePath = `${routeControllerConfig.basePath}${path}`;
       const auth: KeycloakAuth = authenticator.getAuthenticator();
       this.router.get(
         routePath,
-        auth.protect(),
+        isSecure ? auth.protect() : this.forwaredRequest(),
         async (request: Request, response: Response, next: NextFunction) => {
           try {
             const controller: any = this.container.get(targetController);
             if (!controller || !controller[propertyKey]) {
               return response.status(404).send({ message: 'Invalid path' });
             }
-            const context = new Context(authenticator.getUser(request));
-            if (role && !authenticator.hasRole(request, role)) {
-              throw new AccessDeniedError(
-                `User: ${
-                  context.user
-                } does not have appropriate role to access resource.`
-              );
+            let context = new Context(null);
+            if (isSecure) {
+              context = new Context(authenticator.getUser(request));
+              if (role && !authenticator.hasRole(request, role)) {
+                throw new AccessDeniedError(
+                  `User: ${
+                    context.user
+                  } does not have appropriate role to access resource.`
+                );
+              }
             }
             await controller[propertyKey](request, response, context);
           } catch (err) {
@@ -66,27 +69,30 @@ export default class RouteManager {
       );
     });
     RouteManager.postMethodParams.forEach(params => {
-      const { target, path, role, propertyKey } = params;
+      const { target, path, role, isSecure, propertyKey } = params;
       const routeControllerConfig = RouteManager.routeControllers.get(target);
       const targetController = routeControllerConfig.name;
       const routePath = `${routeControllerConfig.basePath}${path}`;
       const auth: KeycloakAuth = authenticator.getAuthenticator();
       this.router.post(
         routePath,
-        auth.protect(),
+        isSecure ? auth.protect() : this.forwaredRequest(),
         async (request: Request, response: Response, next: NextFunction) => {
           try {
             const controller: any = this.container.get(targetController);
             if (!controller || !controller[propertyKey]) {
               return response.status(404).send({ message: 'Invalid path' });
             }
-            const context = new Context(authenticator.getUser(request));
-            if (role && !authenticator.hasRole(request, role)) {
-              throw new AccessDeniedError(
-                `User: ${
-                  context.user
-                } does not have appropriate role to access resource.`
-              );
+            let context = new Context(null);
+            if (isSecure) {
+              context = new Context(authenticator.getUser(request));
+              if (role && !authenticator.hasRole(request, role)) {
+                throw new AccessDeniedError(
+                  `User: ${
+                    context.user
+                  } does not have appropriate role to access resource.`
+                );
+              }
             }
             await controller[propertyKey](request, response, context);
           } catch (err) {
@@ -97,27 +103,30 @@ export default class RouteManager {
     });
 
     RouteManager.deleteMethodParams.forEach(params => {
-      const { target, path, role, propertyKey } = params;
+      const { target, path, role, isSecure, propertyKey } = params;
       const routeControllerConfig = RouteManager.routeControllers.get(target);
       const targetController = routeControllerConfig.name;
       const routePath = `${routeControllerConfig.basePath}${path}`;
       const auth: KeycloakAuth = authenticator.getAuthenticator();
       this.router.delete(
         routePath,
-        auth.protect(),
+        isSecure ? auth.protect() : this.forwaredRequest(),
         async (request: Request, response: Response, next: NextFunction) => {
           try {
             const controller: any = this.container.get(targetController);
             if (!controller || !controller[propertyKey]) {
               return response.status(404).send({ message: 'Invalid path' });
             }
-            const context = new Context(authenticator.getUser(request));
-            if (role && !authenticator.hasRole(request, role)) {
-              throw new AccessDeniedError(
-                `User: ${
-                  context.user
-                } does not have appropriate role to access resource.`
-              );
+            let context = new Context(null);
+            if (isSecure) {
+              context = new Context(authenticator.getUser(request));
+              if (role && !authenticator.hasRole(request, role)) {
+                throw new AccessDeniedError(
+                  `User: ${
+                    context.user
+                  } does not have appropriate role to access resource.`
+                );
+              }
             }
             await controller[propertyKey](request, response, context);
           } catch (err) {
@@ -126,5 +135,11 @@ export default class RouteManager {
         }
       );
     });
+  }
+
+  private forwaredRequest() {
+    return (request: Request, response: Response, next: NextFunction) => {
+      return next();
+    };
   }
 }
