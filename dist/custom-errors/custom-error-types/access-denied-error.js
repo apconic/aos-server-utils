@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-class UnknownUserError extends Error {
+class AccessDeniedError extends Error {
     constructor(message) {
         super(message);
-        Object.setPrototypeOf(this, UnknownUserError.prototype);
+        Object.setPrototypeOf(this, AccessDeniedError.prototype);
     }
     httpCode() {
         return 403;
@@ -14,4 +14,4 @@ class UnknownUserError extends Error {
         };
     }
 }
-exports.UnknownUserError = UnknownUserError;
+exports.AccessDeniedError = AccessDeniedError;

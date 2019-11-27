@@ -3,5 +3,6 @@ export default class MethodParams {
     target: any;
     propertyKey: string;
     role: any;
-    constructor(target: any, path: string, propertyKey: string, role?: any);
+    isSecure: boolean;
+    constructor(target: any, path: string, propertyKey: string, role?: any, isSecure?: boolean);
 }

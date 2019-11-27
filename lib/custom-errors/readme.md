@@ -19,7 +19,7 @@ Custom Error classes which can be imported are:
 
 - InvalidSchemaError
 - ResourceNotFoundError
-- UnknownUserError
+- AccessDeniedError
 
 ---
 

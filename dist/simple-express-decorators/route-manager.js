@@ -12,6 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const context_1 = __importDefault(require("./context"));
+const custom_errors_1 = require("../custom-errors");
 class RouteManager {
     constructor(router, container) {
         this.router = router;
@@ -31,18 +32,24 @@ class RouteManager {
     }
     configure(authenticator) {
         RouteManager.getMethodParams.forEach(params => {
-            const { target, path, role, propertyKey } = params;
+            const { target, path, role, isSecure, propertyKey } = params;
             const routeControllerConfig = RouteManager.routeControllers.get(target);
             const targetController = routeControllerConfig.name;
             const routePath = `${routeControllerConfig.basePath}${path}`;
             const auth = authenticator.getAuthenticator();
-            this.router.get(routePath, role ? auth.protect(role) : auth.protect(), (request, response, next) => __awaiter(this, void 0, void 0, function* () {
+            this.router.get(routePath, isSecure ? auth.protect() : this.forwaredRequest(), (request, response, next) => __awaiter(this, void 0, void 0, function* () {
                 try {
                     const controller = this.container.get(targetController);
                     if (!controller || !controller[propertyKey]) {
                         return response.status(404).send({ message: 'Invalid path' });
                     }
-                    const context = new context_1.default(authenticator.getUser(request));
+                    let context = new context_1.default(null);
+                    if (isSecure) {
+                        context = new context_1.default(authenticator.getUser(request));
+                        if (role && !authenticator.hasRole(request, role)) {
+                            throw new custom_errors_1.AccessDeniedError(`User: ${context.user} does not have appropriate role to access resource.`);
+                        }
+                    }
                     yield controller[propertyKey](request, response, context);
                 }
                 catch (err) {
@@ -51,18 +58,24 @@ class RouteManager {
             }));
         });
         RouteManager.postMethodParams.forEach(params => {
-            const { target, path, role, propertyKey } = params;
+            const { target, path, role, isSecure, propertyKey } = params;
             const routeControllerConfig = RouteManager.routeControllers.get(target);
             const targetController = routeControllerConfig.name;
             const routePath = `${routeControllerConfig.basePath}${path}`;
             const auth = authenticator.getAuthenticator();
-            this.router.post(routePath, role ? auth.protect(role) : auth.protect(), (request, response, next) => __awaiter(this, void 0, void 0, function* () {
+            this.router.post(routePath, isSecure ? auth.protect() : this.forwaredRequest(), (request, response, next) => __awaiter(this, void 0, void 0, function* () {
                 try {
                     const controller = this.container.get(targetController);
                     if (!controller || !controller[propertyKey]) {
                         return response.status(404).send({ message: 'Invalid path' });
                     }
-                    const context = new context_1.default(authenticator.getUser(request));
+                    let context = new context_1.default(null);
+                    if (isSecure) {
+                        context = new context_1.default(authenticator.getUser(request));
+                        if (role && !authenticator.hasRole(request, role)) {
+                            throw new custom_errors_1.AccessDeniedError(`User: ${context.user} does not have appropriate role to access resource.`);
+                        }
+                    }
                     yield controller[propertyKey](request, response, context);
                 }
                 catch (err) {
@@ -71,18 +84,24 @@ class RouteManager {
             }));
         });
         RouteManager.deleteMethodParams.forEach(params => {
-            const { target, path, role, propertyKey } = params;
+            const { target, path, role, isSecure, propertyKey } = params;
             const routeControllerConfig = RouteManager.routeControllers.get(target);
             const targetController = routeControllerConfig.name;
             const routePath = `${routeControllerConfig.basePath}${path}`;
             const auth = authenticator.getAuthenticator();
-            this.router.delete(routePath, role ? auth.protect(role) : auth.protect(), (request, response, next) => __awaiter(this, void 0, void 0, function* () {
+            this.router.delete(routePath, isSecure ? auth.protect() : this.forwaredRequest(), (request, response, next) => __awaiter(this, void 0, void 0, function* () {
                 try {
                     const controller = this.container.get(targetController);
                     if (!controller || !controller[propertyKey]) {
                         return response.status(404).send({ message: 'Invalid path' });
                     }
-                    const context = new context_1.default(authenticator.getUser(request));
+                    let context = new context_1.default(null);
+                    if (isSecure) {
+                        context = new context_1.default(authenticator.getUser(request));
+                        if (role && !authenticator.hasRole(request, role)) {
+                            throw new custom_errors_1.AccessDeniedError(`User: ${context.user} does not have appropriate role to access resource.`);
+                        }
+                    }
                     yield controller[propertyKey](request, response, context);
                 }
                 catch (err) {
@@ -90,6 +109,11 @@ class RouteManager {
                 }
             }));
         });
+    }
+    forwaredRequest() {
+        return (request, response, next) => {
+            return next();
+        };
     }
 }
 RouteManager.getMethodParams = [];

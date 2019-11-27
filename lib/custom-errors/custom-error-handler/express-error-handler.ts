@@ -1,7 +1,7 @@
 import {
   InvalidSchemaError,
   ResourceNotFoundError,
-  UnknownUserError,
+  AccessDeniedError,
   CustomError
 } from '../custom-error-types';
 import { Request, Response, NextFunction } from 'express';
@@ -15,7 +15,7 @@ export function errorHandler(
   switch (true) {
     case error instanceof InvalidSchemaError:
     case error instanceof ResourceNotFoundError:
-    case error instanceof UnknownUserError:
+    case error instanceof AccessDeniedError:
       response.status(error.httpCode()).json(error.errorMessage());
       break;
     case error.message === 'keycloak.redirectToLogin is not a function':

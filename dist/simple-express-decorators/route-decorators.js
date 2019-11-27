@@ -5,24 +5,24 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const route_manager_1 = __importDefault(require("./route-manager"));
 const method_params_1 = __importDefault(require("./method-params"));
-function get(path, role) {
+function get(path, role, isSecure = true) {
     return function (target, propertyKey, descriptor) {
         const name = Object.create(target).constructor.name;
-        route_manager_1.default.registerGetMethodRoutes(new method_params_1.default(name, path, propertyKey, role || null));
+        route_manager_1.default.registerGetMethodRoutes(new method_params_1.default(name, path, propertyKey, role || null, isSecure));
     };
 }
 exports.get = get;
-function post(path, role) {
+function post(path, role, isSecure = true) {
     return function (target, propertyKey, descriptor) {
         const name = Object.create(target).constructor.name;
-        route_manager_1.default.registerPostMethodRoutes(new method_params_1.default(name, path, propertyKey, role || null));
+        route_manager_1.default.registerPostMethodRoutes(new method_params_1.default(name, path, propertyKey, role || null, isSecure));
     };
 }
 exports.post = post;
-function del(path, role) {
+function del(path, role, isSecure = true) {
     return function (target, propertyKey, descriptor) {
         const name = Object.create(target).constructor.name;
-        route_manager_1.default.registerDeleteMethodRoutes(new method_params_1.default(name, path, propertyKey, role || null));
+        route_manager_1.default.registerDeleteMethodRoutes(new method_params_1.default(name, path, propertyKey, role || null, isSecure));
     };
 }
 exports.del = del;

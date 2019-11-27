@@ -1,4 +1,5 @@
 # simple-express-decorators
+
 Very simple implementation of express decorators. Depends on inversify
 
 ```
@@ -24,7 +25,7 @@ const TYPES = {
 };
 
 @injectable()
-@controller(TYPES.UserController, '/users')
+@controller(TYPES.UserController, '/users', ['ADMIN], false)
 class UserController {
   @inject(TYPES.UserService)
   private userService: UserService;

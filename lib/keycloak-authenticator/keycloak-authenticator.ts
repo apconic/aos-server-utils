@@ -34,6 +34,27 @@ export class KeycloakAuthenticator implements Authenticator {
       return null;
     }
   }
+
+  public hasRole(request: Request, role: string | string[]): boolean {
+    try {
+      // @ts-ignore
+      const authenticator = request.kauth.grant.access_token;
+      if (typeof role === 'string') {
+        return authenticator.hasRole(role);
+      }
+
+      let userHasRole = false;
+      for (let i = 0; i < role.length; i = i + 1) {
+        if (authenticator.hasRole(role[i])) {
+          userHasRole = true;
+          break;
+        }
+      }
+      return userHasRole;
+    } catch (err) {
+      return false;
+    }
+  }
 }
 
 function buildConfig() {
