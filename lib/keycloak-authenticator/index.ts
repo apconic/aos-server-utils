@@ -8,6 +8,7 @@ export interface Authenticator {
 
 export interface KeycloakAuth {
   middleware(options?: any): any;
+  // tslint:disable-next-line: ban-types
   protect(role?: Function | string): any;
 }
 

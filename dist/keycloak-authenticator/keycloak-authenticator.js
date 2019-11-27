@@ -48,6 +48,7 @@ let KeycloakAuthenticator = class KeycloakAuthenticator {
                 return authenticator.hasRole(role);
             }
             let userHasRole = false;
+            // tslint:disable-next-line: prefer-for-of
             for (let i = 0; i < role.length; i = i + 1) {
                 if (authenticator.hasRole(role[i])) {
                     userHasRole = true;
@@ -68,17 +69,16 @@ KeycloakAuthenticator = __decorate([
 exports.KeycloakAuthenticator = KeycloakAuthenticator;
 function buildConfig() {
     return {
-        realm: process.env.KEYCLOAK_REALM,
-        clientId: process.env.KEYCLOAK_CLIENT_ID,
-        'realm-public-key': process.env.KEYCLOAK_REALM_PUBLIC_KEY,
-        'auth-server-url': process.env.KEYCLOAK_AUTH_SERVER_URL,
-        'ssl-required': process.env.KEYCLOAK_SSL_REQUIRED,
-        'use-resource-role-mappings': process.env
-            .KEYCLOAK_USE_RESOURCE_ROLE_MAPPINGS,
-        'public-client': process.env.KEYCLOAK_PUBLIC_CLIENT,
-        'enable-cors': process.env.KEYCLOAK_ENABLE_CORS,
-        'cors-max-age': process.env.KEYCLOAK_CORS_MAX_AGE,
-        'bearer-only': process.env.KEYCLOAK_BEARER_ONLY,
-        'proxy-url': process.env.KEYCLOAK_PROXY_URL
+        realm: process.env.KEYCLOAK_REALM || 'goodstrack',
+        clientId: process.env.KEYCLOAK_CLIENT_ID || 'admin-server',
+        'realm-public-key': process.env.KEYCLOAK_REALM_PUBLIC_KEY || null,
+        'auth-server-url': process.env.KEYCLOAK_AUTH_SERVER_URL || 'http://13.127.63.157:8080/auth',
+        'ssl-required': process.env.KEYCLOAK_SSL_REQUIRED || 'external',
+        'use-resource-role-mappings': process.env.KEYCLOAK_USE_RESOURCE_ROLE_MAPPINGS || 'false',
+        'public-client': process.env.KEYCLOAK_PUBLIC_CLIENT || 'false',
+        'enable-cors': process.env.KEYCLOAK_ENABLE_CORS || 'false',
+        'cors-max-age': process.env.KEYCLOAK_CORS_MAX_AGE || null,
+        'bearer-only': process.env.KEYCLOAK_BEARER_ONLY || 'true',
+        'proxy-url': process.env.KEYCLOAK_PROXY_URL || null
     };
 }

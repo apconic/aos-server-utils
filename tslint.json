@@ -1,0 +1,19 @@
+{
+  "extends": ["tslint:latest", "tslint-config-prettier"],
+  "rules": {
+    "quotemark": [true, "single"],
+    "interface-name": false,
+    "object-literal-sort-keys": false,
+    "no-console": true,
+    "no-misused-new": false,
+    "no-unused-expression": true,
+    "ordered-imports": false,
+    "no-string-literal": false,
+    "member-ordering": false,
+    "variable-name": false,
+    "no-floating-promises": true,
+    "no-promise-as-boolean": true,
+    "await-promise": true,
+    "only-arrow-functions": false
+  }
+}
