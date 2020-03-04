@@ -14,6 +14,6 @@ export default class RouteManager {
     static registerPostMethodRoutes(params: MethodParams): void;
     static registerDeleteMethodRoutes(params: MethodParams): void;
     constructor(router: Router, container: Container);
-    configure(authenticator: Authenticator): void;
-    private forwaredRequest;
+    configure(authenticator?: Authenticator): void;
+    private forwardRequest;
 }

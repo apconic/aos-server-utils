@@ -8,7 +8,7 @@ export default class Server {
     private routeManagers;
     constructor(port: any, container: Container);
     use(...middleWareFunc: any[]): void;
-    createRouter(path: string, authenticator: Authenticator): void;
+    createRouter(path: string, authenticator?: Authenticator): void;
     start(): void;
     stop(): void;
 }

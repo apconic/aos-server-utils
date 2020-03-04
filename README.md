@@ -1,6 +1,6 @@
 # **aos-server-utils**
 
-# _Published Version: 0.1.6_
+# _Published Version: 0.1.7_
 
 Contains utilities such as Custom Errors, Keycloak Wrapper etc which are shared by various projects at [Apconic](http://www.apconic.com).
 
