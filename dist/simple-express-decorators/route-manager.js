@@ -13,7 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const context_1 = __importDefault(require("./context"));
-const custom_errors_1 = require("../custom-errors");
+const authenticator_1 = require("../authenticator");
 class RouteManager {
     constructor(router, container) {
         this.router = router;
@@ -33,25 +33,29 @@ class RouteManager {
     }
     configure(authenticator) {
         // Bind GET endpoints
-        RouteManager.getMethodParams.forEach(params => {
-            var _a;
+        RouteManager.getMethodParams.forEach((params) => {
             const { target, path, role, isSecure, propertyKey } = params;
             const routeControllerConfig = RouteManager.routeControllers.get(target);
             const targetController = routeControllerConfig.name;
             const routePath = `${routeControllerConfig.basePath}${path}`;
-            const auth = (_a = authenticator) === null || _a === void 0 ? void 0 : _a.getAuthenticator();
-            this.router.get(routePath, isSecure && auth ? auth.protect() : this.forwardRequest(), (request, response, next) => __awaiter(this, void 0, void 0, function* () {
+            this.router.get(routePath, this.forwardRequest(), (request, response, next) => __awaiter(this, void 0, void 0, function* () {
                 try {
                     const controller = this.container.get(targetController);
                     if (!controller || !controller[propertyKey]) {
                         return response.status(404).send({ message: 'Invalid path' });
                     }
-                    let context = new context_1.default(null);
+                    let context = new context_1.default(new authenticator_1.AnonymousUser());
                     if (isSecure && authenticator) {
-                        context = new context_1.default(authenticator.getUser(request));
-                        if (role && !authenticator.hasRole(request, role)) {
-                            throw new custom_errors_1.AccessDeniedError(`User: ${context.user} does not have appropriate role to access resource.`);
+                        const user = yield authenticator.getUser(request);
+                        if (Array.isArray(role)) {
+                            for (const r of role) {
+                                user.checkRole(r);
+                            }
                         }
+                        else if (role) {
+                            user.checkRole(role);
+                        }
+                        context = new context_1.default(user);
                     }
                     yield controller[propertyKey](request, response, context);
                 }
@@ -61,25 +65,29 @@ class RouteManager {
             }));
         });
         // Bind POST endpoints
-        RouteManager.postMethodParams.forEach(params => {
-            var _a;
+        RouteManager.postMethodParams.forEach((params) => {
             const { target, path, role, isSecure, propertyKey } = params;
             const routeControllerConfig = RouteManager.routeControllers.get(target);
             const targetController = routeControllerConfig.name;
             const routePath = `${routeControllerConfig.basePath}${path}`;
-            const auth = (_a = authenticator) === null || _a === void 0 ? void 0 : _a.getAuthenticator();
-            this.router.post(routePath, isSecure && auth ? auth.protect() : this.forwardRequest(), (request, response, next) => __awaiter(this, void 0, void 0, function* () {
+            this.router.post(routePath, this.forwardRequest(), (request, response, next) => __awaiter(this, void 0, void 0, function* () {
                 try {
                     const controller = this.container.get(targetController);
                     if (!controller || !controller[propertyKey]) {
                         return response.status(404).send({ message: 'Invalid path' });
                     }
-                    let context = new context_1.default(null);
+                    let context = new context_1.default(new authenticator_1.AnonymousUser());
                     if (isSecure && authenticator) {
-                        context = new context_1.default(authenticator.getUser(request));
-                        if (role && !authenticator.hasRole(request, role)) {
-                            throw new custom_errors_1.AccessDeniedError(`User: ${context.user} does not have appropriate role to access resource.`);
+                        const user = yield authenticator.getUser(request);
+                        if (Array.isArray(role)) {
+                            for (const r of role) {
+                                user.checkRole(r);
+                            }
                         }
+                        else if (role) {
+                            user.checkRole(role);
+                        }
+                        context = new context_1.default(user);
                     }
                     yield controller[propertyKey](request, response, context);
                 }
@@ -89,25 +97,29 @@ class RouteManager {
             }));
         });
         // BIND DELETE endpoints
-        RouteManager.deleteMethodParams.forEach(params => {
-            var _a;
+        RouteManager.deleteMethodParams.forEach((params) => {
             const { target, path, role, isSecure, propertyKey } = params;
             const routeControllerConfig = RouteManager.routeControllers.get(target);
             const targetController = routeControllerConfig.name;
             const routePath = `${routeControllerConfig.basePath}${path}`;
-            const auth = (_a = authenticator) === null || _a === void 0 ? void 0 : _a.getAuthenticator();
-            this.router.delete(routePath, isSecure && auth ? auth.protect() : this.forwardRequest(), (request, response, next) => __awaiter(this, void 0, void 0, function* () {
+            this.router.delete(routePath, this.forwardRequest(), (request, response, next) => __awaiter(this, void 0, void 0, function* () {
                 try {
                     const controller = this.container.get(targetController);
                     if (!controller || !controller[propertyKey]) {
                         return response.status(404).send({ message: 'Invalid path' });
                     }
-                    let context = new context_1.default(null);
+                    let context = new context_1.default(new authenticator_1.AnonymousUser());
                     if (isSecure && authenticator) {
-                        context = new context_1.default(authenticator.getUser(request));
-                        if (role && !authenticator.hasRole(request, role)) {
-                            throw new custom_errors_1.AccessDeniedError(`User: ${context.user} does not have appropriate role to access resource.`);
+                        const user = yield authenticator.getUser(request);
+                        if (Array.isArray(role)) {
+                            for (const r of role) {
+                                user.checkRole(r);
+                            }
                         }
+                        else if (role) {
+                            user.checkRole(role);
+                        }
+                        context = new context_1.default(user);
                     }
                     yield controller[propertyKey](request, response, context);
                 }

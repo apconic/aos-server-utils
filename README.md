@@ -1,6 +1,6 @@
 # **aos-server-utils**
 
-# _Published Version: 0.1.7_
+# _Published Version: 1.0.0_
 
 Contains utilities such as Custom Errors, Keycloak Wrapper etc which are shared by various projects at [Apconic](http://www.apconic.com).
 
@@ -11,10 +11,10 @@ Contains utilities such as Custom Errors, Keycloak Wrapper etc which are shared 
     _Future release: Internationalized error message._  
     [More info](./lib/custom-errors/readme.md)
 
-2.  **Keycloak Authenticator**  
+2.  **Home server authenticator**  
     An _injectable_ (refer: [InversifyJS](https://github.com/inversify/InversifyJS)) Authenticator class to be used for authentication on API requests.
     Also contains a Mock Authenticator which can be used during development.  
-    [More info](./lib/keycloak-authenticator/readme.md)
+    [More info](./lib/authenticator/readme.md)
 
 3.  **Simple Express Decorators**  
     Very simple implementation of express decorators. Depends on inversify and Keycloak Authenticator (Module 2).  

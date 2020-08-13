@@ -2,7 +2,7 @@ import express, { Application } from 'express';
 import RouteManager from './route-manager';
 import { Container } from 'inversify';
 import * as http from 'http';
-import { Authenticator } from '../keycloak-authenticator';
+import { Authenticator } from '../authenticator';
 
 export default class Server {
   private port: any;

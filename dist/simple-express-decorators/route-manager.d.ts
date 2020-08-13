@@ -1,7 +1,7 @@
 import MethodParams from './method-params';
 import { Container } from 'inversify';
 import { Router } from 'express';
-import { Authenticator } from '../keycloak-authenticator';
+import { Authenticator } from '../authenticator';
 export default class RouteManager {
     private static getMethodParams;
     private static postMethodParams;
