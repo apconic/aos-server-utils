@@ -5,7 +5,7 @@ export default class MethodParams {
   public role: any;
   public isSecure: boolean;
 
-  constructor(target: any, path: string, propertyKey: string, role?: string | string[], isSecure: boolean = true) {
+  constructor(target: any, path: string, propertyKey: string, role?: string | string[], isSecure = true) {
     this.target = target;
     this.path = path;
     this.propertyKey = propertyKey;

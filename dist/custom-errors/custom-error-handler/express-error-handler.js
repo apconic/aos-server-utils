@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.errorHandler = void 0;
 const custom_error_types_1 = require("../custom-error-types");
 function errorHandler(error, request, response, next) {
     switch (true) {
@@ -8,13 +9,13 @@ function errorHandler(error, request, response, next) {
         case error instanceof custom_error_types_1.AccessDeniedError:
             response.status(error.httpCode()).json(error.errorMessage());
             break;
-        case error.message === 'keycloak.redirectToLogin is not a function':
+        case error.message.includes('User has no session'):
             error.message = 'Authentication failed. User was not logged in.';
             response.status(403).json({ message: 'User is not logged in' });
             break;
         default:
             response.status(500).json({
-                message: 'Internal server error'
+                message: 'Internal server error',
             });
     }
 }

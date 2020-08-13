@@ -1,12 +1,21 @@
-**Keycloak Authenticator**
+**Home server authenticator**
 
 A injectable (InversifyJS) class which implements Authenticator interface.  
 When creating inversify bindings:
 
+# Important
+
+Include these environment variables (In your .env file) for home authenticator configuration:
+
+```.env
+## Authentication ##
+HOME_GRAPHQL_AUTHENTICATION_URL = 'http://localhost:27230/graphql'
+```
+
 ```Typescript
 import {
   Authenticator,
-  KeycloakAuthenticator,
+  HomeServerAuthenticator,
   MockKeycloakAuthenticator
 } from 'aos-server-utils';
 ...
@@ -14,7 +23,7 @@ import {
 container
     .bind<Authenticator>(TYPES.Authenticator)
     // Bind with MockKeycloakAuthenticator to mock Keycloak during development
-    .to(KeycloakAuthenticator)
+    .to(HomeServerAuthenticator)
     .inSingletonScope();
 ```
 
@@ -41,18 +50,4 @@ Example:
     );
     res.status(200).json(response);
   }
-```
-
-# Important
-
-Include these environment variables (In your .env file) for keycloak configuration:
-
-```.env
-# Keycloak settings
-KEYCLOAK_REALM = goodstrack
-KEYCLOAK_BEARER_ONLY = true
-KEYCLOAK_AUTH_SERVER_URL = http://13.127.63.157:8080/auth
-KEYCLOAK_SSL_REQUIRED = external
-KEYCLOAK_CLIENT_ID = admin-server
-KEYCLOAK_CONFIDENTIAL_PORT = 0
 ```

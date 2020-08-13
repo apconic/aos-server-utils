@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.AccessDeniedError = void 0;
 class AccessDeniedError extends Error {
     constructor(message) {
         super(message);
@@ -10,7 +11,7 @@ class AccessDeniedError extends Error {
     }
     errorMessage() {
         return {
-            message: this.message
+            message: this.message,
         };
     }
 }

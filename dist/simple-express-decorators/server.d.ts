@@ -1,5 +1,5 @@
 import { Container } from 'inversify';
-import { Authenticator } from '../keycloak-authenticator';
+import { Authenticator } from '../authenticator';
 export default class Server {
     private port;
     private app;
