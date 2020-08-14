@@ -1,11 +1,12 @@
+import { Application } from 'express';
 import { Container } from 'inversify';
 import { Authenticator } from '../authenticator';
 export default class Server {
     private port;
-    private app;
     private httpServer;
     private container;
     private routeManagers;
+    app: Application;
     constructor(port: any, container: Container);
     use(...middleWareFunc: any[]): void;
     createRouter(path: string, authenticator?: Authenticator): void;

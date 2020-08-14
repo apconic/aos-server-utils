@@ -6,10 +6,10 @@ import { Authenticator } from '../authenticator';
 
 export default class Server {
   private port: any;
-  private app: Application;
   private httpServer: http.Server | null;
   private container: Container;
   private routeManagers: Map<string, RouteManager> = new Map<string, RouteManager>();
+  public app: Application;
 
   constructor(port: any, container: Container) {
     this.port = port;
