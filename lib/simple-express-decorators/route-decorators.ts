@@ -22,6 +22,20 @@ export function del(path: string, role?: string | string[], isSecure = true) {
   };
 }
 
+export function put(path: string, role?: string | string[], isSecure = true) {
+  return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+    const name = Object.create(target).constructor.name;
+    RouteManager.registerPutMethodRoutes(new MethodParams(name, path, propertyKey, role, isSecure));
+  };
+}
+
+export function patch(path: string, role?: string | string[], isSecure = true) {
+  return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+    const name = Object.create(target).constructor.name;
+    RouteManager.registerPatchMethodRoutes(new MethodParams(name, path, propertyKey, role, isSecure));
+  };
+}
+
 export function controller(name: any, basePath: string) {
   // tslint:disable-next-line: ban-types
   return function (target: Function) {

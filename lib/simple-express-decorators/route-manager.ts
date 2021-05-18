@@ -8,6 +8,8 @@ export default class RouteManager {
   private static getMethodParams: MethodParams[] = [];
   private static postMethodParams: MethodParams[] = [];
   private static deleteMethodParams: MethodParams[] = [];
+  private static putMethodParams: MethodParams[] = [];
+  private static patchMethodParams: MethodParams[] = [];
   private static routeControllers: Map<string, any> = new Map<string, any>();
   private router: Router;
   private container: Container;
@@ -26,6 +28,14 @@ export default class RouteManager {
 
   public static registerDeleteMethodRoutes(params: MethodParams) {
     RouteManager.deleteMethodParams.push(params);
+  }
+
+  public static registerPutMethodRoutes(params: MethodParams) {
+    RouteManager.putMethodParams.push(params);
+  }
+
+  public static registerPatchMethodRoutes(params: MethodParams) {
+    RouteManager.patchMethodParams.push(params);
   }
 
   constructor(router: Router, container: Container) {
@@ -117,6 +127,82 @@ export default class RouteManager {
       const targetController = routeControllerConfig.name;
       const routePath = `${routeControllerConfig.basePath}${path}`;
       this.router.delete(
+        routePath,
+        this.forwardRequest(),
+        async (request: Request, response: Response, next: NextFunction) => {
+          try {
+            const controller: any = this.container.get(targetController);
+            if (!controller || !controller[propertyKey]) {
+              return response.status(404).send({ message: 'Invalid path' });
+            }
+
+            let context = new Context(new AnonymousUser());
+            if (isSecure && authenticator) {
+              const user = await authenticator.getUser(request);
+              if (Array.isArray(role)) {
+                for (const r of role) {
+                  user.checkRole(r);
+                }
+              } else if (role) {
+                user.checkRole(role);
+              }
+
+              context = new Context(user);
+            }
+
+            await controller[propertyKey](request, response, context);
+          } catch (err) {
+            next(err);
+          }
+        }
+      );
+    });
+
+    // BIND PUT endpoints
+    RouteManager.putMethodParams.forEach((params) => {
+      const { target, path, role, isSecure, propertyKey } = params;
+      const routeControllerConfig = RouteManager.routeControllers.get(target);
+      const targetController = routeControllerConfig.name;
+      const routePath = `${routeControllerConfig.basePath}${path}`;
+      this.router.put(
+        routePath,
+        this.forwardRequest(),
+        async (request: Request, response: Response, next: NextFunction) => {
+          try {
+            const controller: any = this.container.get(targetController);
+            if (!controller || !controller[propertyKey]) {
+              return response.status(404).send({ message: 'Invalid path' });
+            }
+
+            let context = new Context(new AnonymousUser());
+            if (isSecure && authenticator) {
+              const user = await authenticator.getUser(request);
+              if (Array.isArray(role)) {
+                for (const r of role) {
+                  user.checkRole(r);
+                }
+              } else if (role) {
+                user.checkRole(role);
+              }
+
+              context = new Context(user);
+            }
+
+            await controller[propertyKey](request, response, context);
+          } catch (err) {
+            next(err);
+          }
+        }
+      );
+    });
+
+    // BIND PATCH endpoints
+    RouteManager.patchMethodParams.forEach((params) => {
+      const { target, path, role, isSecure, propertyKey } = params;
+      const routeControllerConfig = RouteManager.routeControllers.get(target);
+      const targetController = routeControllerConfig.name;
+      const routePath = `${routeControllerConfig.basePath}${path}`;
+      this.router.patch(
         routePath,
         this.forwardRequest(),
         async (request: Request, response: Response, next: NextFunction) => {
