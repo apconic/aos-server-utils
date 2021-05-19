@@ -31,6 +31,12 @@ class RouteManager {
     static registerDeleteMethodRoutes(params) {
         RouteManager.deleteMethodParams.push(params);
     }
+    static registerPutMethodRoutes(params) {
+        RouteManager.putMethodParams.push(params);
+    }
+    static registerPatchMethodRoutes(params) {
+        RouteManager.patchMethodParams.push(params);
+    }
     configure(authenticator) {
         // Bind GET endpoints
         RouteManager.getMethodParams.forEach((params) => {
@@ -128,6 +134,70 @@ class RouteManager {
                 }
             }));
         });
+        // BIND PUT endpoints
+        RouteManager.putMethodParams.forEach((params) => {
+            const { target, path, role, isSecure, propertyKey } = params;
+            const routeControllerConfig = RouteManager.routeControllers.get(target);
+            const targetController = routeControllerConfig.name;
+            const routePath = `${routeControllerConfig.basePath}${path}`;
+            this.router.put(routePath, this.forwardRequest(), (request, response, next) => __awaiter(this, void 0, void 0, function* () {
+                try {
+                    const controller = this.container.get(targetController);
+                    if (!controller || !controller[propertyKey]) {
+                        return response.status(404).send({ message: 'Invalid path' });
+                    }
+                    let context = new context_1.default(new authenticator_1.AnonymousUser());
+                    if (isSecure && authenticator) {
+                        const user = yield authenticator.getUser(request);
+                        if (Array.isArray(role)) {
+                            for (const r of role) {
+                                user.checkRole(r);
+                            }
+                        }
+                        else if (role) {
+                            user.checkRole(role);
+                        }
+                        context = new context_1.default(user);
+                    }
+                    yield controller[propertyKey](request, response, context);
+                }
+                catch (err) {
+                    next(err);
+                }
+            }));
+        });
+        // BIND PATCH endpoints
+        RouteManager.patchMethodParams.forEach((params) => {
+            const { target, path, role, isSecure, propertyKey } = params;
+            const routeControllerConfig = RouteManager.routeControllers.get(target);
+            const targetController = routeControllerConfig.name;
+            const routePath = `${routeControllerConfig.basePath}${path}`;
+            this.router.patch(routePath, this.forwardRequest(), (request, response, next) => __awaiter(this, void 0, void 0, function* () {
+                try {
+                    const controller = this.container.get(targetController);
+                    if (!controller || !controller[propertyKey]) {
+                        return response.status(404).send({ message: 'Invalid path' });
+                    }
+                    let context = new context_1.default(new authenticator_1.AnonymousUser());
+                    if (isSecure && authenticator) {
+                        const user = yield authenticator.getUser(request);
+                        if (Array.isArray(role)) {
+                            for (const r of role) {
+                                user.checkRole(r);
+                            }
+                        }
+                        else if (role) {
+                            user.checkRole(role);
+                        }
+                        context = new context_1.default(user);
+                    }
+                    yield controller[propertyKey](request, response, context);
+                }
+                catch (err) {
+                    next(err);
+                }
+            }));
+        });
     }
     forwardRequest() {
         return (request, response, next) => {
@@ -139,4 +209,6 @@ exports.default = RouteManager;
 RouteManager.getMethodParams = [];
 RouteManager.postMethodParams = [];
 RouteManager.deleteMethodParams = [];
+RouteManager.putMethodParams = [];
+RouteManager.patchMethodParams = [];
 RouteManager.routeControllers = new Map();
