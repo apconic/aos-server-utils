@@ -12,3 +12,7 @@
 **Release 1.0.1**
 
 - Expose express 'app' property to allow other servers to configure it as needed.
+
+**Release 1.0.2**
+
+- Added decorators for Put and Patch HTTP request.
