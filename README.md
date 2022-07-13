@@ -2,6 +2,8 @@
 
 # _Published Version: 1.0.2_
 
+# _Published Version: 1.0.3_
+
 Contains utilities such as Custom Errors, Keycloak Wrapper etc which are shared by various projects at [Apconic](http://www.apconic.com).
 
 1.  **CustomErrors**  
