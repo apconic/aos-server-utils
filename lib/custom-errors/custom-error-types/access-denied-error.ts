@@ -12,6 +12,7 @@ export class AccessDeniedError extends Error implements CustomError {
 
   public errorMessage(): ErrorMessage {
     return {
+      result: 'ERROR',
       message: this.message,
     };
   }

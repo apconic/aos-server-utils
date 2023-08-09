@@ -4,7 +4,7 @@ import User from './user';
 export default class MockUser implements User {
   #preferredUsername: string;
   #businessUnits: string[];
-  #transporterCode?: string;
+  #transporterCode: string | null;
   #currentBusinessUnit?: string;
   #userType: UserTypes;
   #roles: Array<{ name: string }>;
@@ -44,5 +44,14 @@ export default class MockUser implements User {
 
   public checkRole(roleName: string): void {
     return;
+  }
+
+  public toPlainObject() {
+    return {
+      username: this.username,
+      userType: this.userType,
+      currentBU: this.currentBU,
+      transporterCode: this.transporterCode,
+    };
   }
 }

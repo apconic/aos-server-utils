@@ -29,5 +29,13 @@ class AnonymousUser {
     checkRole(roleName) {
         throw new custom_errors_1.AccessDeniedError(`User does not have appropriate role: "${roleName}" to access resource`);
     }
+    toPlainObject() {
+        return {
+            username: this.username,
+            userType: this.userType,
+            currentBU: this.currentBU,
+            transporterCode: this.transporterCode,
+        };
+    }
 }
 exports.default = AnonymousUser;

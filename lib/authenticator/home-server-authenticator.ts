@@ -1,9 +1,12 @@
+import { injectable } from 'inversify';
 import { Request } from 'express';
 import { GraphQLClient } from 'graphql-request';
 import Authenticator from './authenticator';
 import { HomeServerUser, UserTypes, User } from './users';
 import { trim, isString } from 'lodash';
+import { InvalidSchemaError, ResourceNotFoundError } from '../custom-errors/custom-error-types';
 
+@injectable()
 class HomeServerAuthenticator implements Authenticator {
   private USER_SESSION_QUERY = `query UserSessionInfo($accessToken: String!) {
     userSessionInfo(accessToken: $accessToken) {
@@ -24,6 +27,10 @@ class HomeServerAuthenticator implements Authenticator {
 
   public async getUser(request: Request): Promise<User> {
     const authHeader = request.headers.authorization as string;
+    if (!authHeader) {
+      throw new InvalidSchemaError('Authorization bearer token not found in request header');
+    }
+
     const accessToken = authHeader.substring('Bearer '.length);
     if (!accessToken) {
       throw new Error(`Authorization bearer token not found. Value:${authHeader}`);
@@ -61,25 +68,23 @@ class HomeServerAuthenticator implements Authenticator {
   private getCurrentBU(req: Request, businessUnits: string[]): string {
     const buCode = trim(req.headers['current-bu'] as string);
     if (!isString(buCode) || buCode.length === 0) {
-      throw new Error("'current-bu' not present");
+      throw new InvalidSchemaError("'current-bu' not present in request header");
     }
 
     if (!businessUnits.includes(buCode)) {
-      throw new Error(`'BU:${buCode} not found in user's business units`);
+      throw new ResourceNotFoundError(`'BU:${buCode} not found in user's business units`);
     }
 
     return buCode;
   }
 
-  private getTransporterCode(userSessionInfo: any, userType: UserTypes): string | undefined {
+  private getTransporterCode(userSessionInfo: any, userType: UserTypes): string | null {
     const code = userSessionInfo.transporterCode;
-    if (userType === UserTypes.Transporter) {
-      if (!code) {
-        throw new Error(`${userType} user has no 'transporterCode'`);
-      }
-
-      return code;
+    if (userType === UserTypes.Transporter && !code) {
+      throw new Error(`${userType} user has no 'transporterCode'`);
     }
+
+    return code ?? null;
   }
 
   private getType(userSessionInfo: any): UserTypes {

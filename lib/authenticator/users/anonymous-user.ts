@@ -35,4 +35,13 @@ export default class AnonymousUser implements User {
   public checkRole(roleName: string): void {
     throw new AccessDeniedError(`User does not have appropriate role: "${roleName}" to access resource`);
   }
+
+  public toPlainObject() {
+    return {
+      username: this.username,
+      userType: this.userType,
+      currentBU: this.currentBU,
+      transporterCode: this.transporterCode,
+    };
+  }
 }

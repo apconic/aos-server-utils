@@ -11,6 +11,7 @@ class AccessDeniedError extends Error {
     }
     errorMessage() {
         return {
+            result: 'ERROR',
             message: this.message,
         };
     }

@@ -5,7 +5,7 @@ import { AccessDeniedError } from '../../custom-errors';
 export default class HomeServerUser implements User {
   #preferredUsername: string;
   #businessUnits: string[];
-  #transporterCode?: string;
+  #transporterCode: string | null;
   #userType: UserTypes;
   #currentBusinessUnit?: string;
   #roles: Array<{ name: string }>;
@@ -47,5 +47,14 @@ export default class HomeServerUser implements User {
     if (!this.#roles.find((r) => r.name === roleName)) {
       throw new AccessDeniedError(`User does not have appropriate role: "${roleName}" to access resource`);
     }
+  }
+
+  public toPlainObject() {
+    return {
+      username: this.#preferredUsername,
+      userType: this.#userType,
+      currentBU: this.#currentBusinessUnit,
+      transporterCode: this.#transporterCode,
+    };
   }
 }

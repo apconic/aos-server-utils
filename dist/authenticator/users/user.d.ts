@@ -1,6 +1,6 @@
 import { UserTypes } from './constants';
 export default interface User {
-    transporterCode?: string;
+    transporterCode: string | null;
     username: string;
     currentBU: string;
     userType: UserTypes;
@@ -13,4 +13,11 @@ export default interface User {
      * @memberof User
      */
     checkRole(roleName: string): void;
+    /**
+     *
+     * Returns plain user object. Used to pass user object to other micro-services.
+     * @returns {*}
+     * @memberof User
+     */
+    toPlainObject(): any;
 }

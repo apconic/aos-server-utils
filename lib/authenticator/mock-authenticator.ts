@@ -44,22 +44,20 @@ class MockAuthenticator implements Authenticator {
     return currentBU;
   }
 
-  private getTransporterCode(request: Request, userType: UserTypes): string | undefined {
+  private getTransporterCode(request: Request, userType: UserTypes): string | null {
     const code = request.headers['transporter-code'] as string;
-    if (userType === UserTypes.Transporter) {
-      if (!isString(code)) {
-        throw new Error(`${userType} user has no 'transporter-code' header`);
-      }
-
-      return code;
+    if (userType === UserTypes.Transporter && !isString(code)) {
+      throw new Error(`${userType} user has no 'transporter-code' header`);
     }
+
+    return code ?? null;
   }
 
   private getType(request: Request): UserTypes {
     const type = request.headers['user-type'] as UserTypes;
     if (!type) {
       console.info(
-        `'user-type' header not provided. Using ${UserTypes.Normal}. Available values:${Object.values(UserTypes)}`
+        `'user-type' header not provided. Using ${UserTypes.Normal}. Available values:${Object.values(UserTypes)}`,
       );
       return UserTypes.Normal;
     }

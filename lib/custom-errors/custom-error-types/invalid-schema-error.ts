@@ -12,6 +12,7 @@ export class InvalidSchemaError extends Error implements CustomError {
 
   public errorMessage(): ErrorMessage {
     return {
+      result: 'ERROR',
       message: this.message,
     };
   }

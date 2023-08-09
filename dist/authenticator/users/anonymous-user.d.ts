@@ -9,4 +9,10 @@ export default class AnonymousUser implements User {
     isInBU(buCode: string): boolean;
     isTransporter(): boolean;
     checkRole(roleName: string): void;
+    toPlainObject(): {
+        username: string;
+        userType: any;
+        currentBU: string;
+        transporterCode: any;
+    };
 }

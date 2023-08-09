@@ -7,7 +7,7 @@ export declare enum UserTypes {
 export interface UserDetails {
     preferredUsername: string;
     businessUnits?: string[];
-    transporterCode?: string;
+    transporterCode: string | null;
     type: UserTypes;
     currentBusinessUnit?: string;
     roles?: Array<{
