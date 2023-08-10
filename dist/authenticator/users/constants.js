@@ -7,4 +7,4 @@ var UserTypes;
     UserTypes["Normal"] = "NORMAL";
     UserTypes["Party"] = "PARTY";
     UserTypes["Driver"] = "DRIVER";
-})(UserTypes = exports.UserTypes || (exports.UserTypes = {}));
+})(UserTypes || (exports.UserTypes = UserTypes = {}));

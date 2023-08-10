@@ -59,7 +59,7 @@ class MockAuthenticator implements Authenticator {
     const type = request.headers['user-type'] as UserTypes;
     if (!type) {
       console.info(
-        `'user-type' header not provided. Using ${UserTypes.Normal}. Available values:${Object.values(UserTypes)}`
+        `'user-type' header not provided. Using ${UserTypes.Normal}. Available values:${Object.values(UserTypes)}`,
       );
       return UserTypes.Normal;
     }

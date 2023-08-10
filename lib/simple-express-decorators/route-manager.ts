@@ -78,7 +78,7 @@ export default class RouteManager {
           } catch (err) {
             next(err);
           }
-        }
+        },
       );
     });
 
@@ -116,7 +116,7 @@ export default class RouteManager {
           } catch (err) {
             next(err);
           }
-        }
+        },
       );
     });
 
@@ -154,7 +154,7 @@ export default class RouteManager {
           } catch (err) {
             next(err);
           }
-        }
+        },
       );
     });
 
@@ -192,7 +192,7 @@ export default class RouteManager {
           } catch (err) {
             next(err);
           }
-        }
+        },
       );
     });
 
@@ -230,7 +230,7 @@ export default class RouteManager {
           } catch (err) {
             next(err);
           }
-        }
+        },
       );
     });
   }

@@ -9,7 +9,7 @@ class Server {
     constructor(port, container) {
         this.routeManagers = new Map();
         this.port = port;
-        this.app = express_1.default();
+        this.app = (0, express_1.default)();
         this.httpServer = null;
         this.container = container;
     }
