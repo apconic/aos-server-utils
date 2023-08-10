@@ -66,8 +66,8 @@ class HomeServerAuthenticator {
         });
     }
     getCurrentBU(req, businessUnits) {
-        const buCode = lodash_1.trim(req.headers['current-bu']);
-        if (!lodash_1.isString(buCode) || buCode.length === 0) {
+        const buCode = (0, lodash_1.trim)(req.headers['current-bu']);
+        if (!(0, lodash_1.isString)(buCode) || buCode.length === 0) {
             throw new Error("'current-bu' not present");
         }
         if (!businessUnits.includes(buCode)) {

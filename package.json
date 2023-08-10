@@ -1,6 +1,6 @@
 {
   "name": "aos-server-utils",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Apconic server utilities. Contains Custom errors, keycloak auth wrapper etc",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -27,20 +27,20 @@
     "@types/inversify": "2.0.33",
     "@types/node": "12.12.14",
     "@types/reflect-metadata": "0.1.0",
-    "@typescript-eslint/eslint-plugin": "3.7.0",
-    "@typescript-eslint/parser": "3.7.0",
+    "@typescript-eslint/eslint-plugin": "4.33.0",
+    "@typescript-eslint/parser": "4.33.0",
     "eslint": "7.5.0",
     "eslint-config-prettier": "6.11.0",
     "eslint-plugin-prettier": "3.1.4",
     "prettier": "2.0.5",
     "rimraf": "3.0.2",
-    "typescript": "3.9.7"
+    "typescript": "4.4.3"
   },
   "dependencies": {
-    "express": "4.17.1",
-    "graphql-request": "1.8.2",
+    "express": "4.17.3",
+    "graphql-request": "^4.3.0",
     "inversify": "5.0.1",
-    "lodash": "4.17.19",
+    "lodash": "^4.17.21",
     "reflect-metadata": "0.1.13"
   }
 }
