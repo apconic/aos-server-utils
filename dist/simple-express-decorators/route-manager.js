@@ -1,13 +1,4 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -15,10 +6,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const context_1 = __importDefault(require("./context"));
 const authenticator_1 = require("../authenticator");
 class RouteManager {
-    constructor(router, container) {
-        this.router = router;
-        this.container = container;
-    }
     static registerRouteControllers(controllerName, params) {
         RouteManager.routeControllers.set(controllerName, params);
     }
@@ -37,6 +24,10 @@ class RouteManager {
     static registerPatchMethodRoutes(params) {
         RouteManager.patchMethodParams.push(params);
     }
+    constructor(router, container) {
+        this.router = router;
+        this.container = container;
+    }
     configure(authenticator) {
         // Bind GET endpoints
         RouteManager.getMethodParams.forEach((params) => {
@@ -44,7 +35,7 @@ class RouteManager {
             const routeControllerConfig = RouteManager.routeControllers.get(target);
             const targetController = routeControllerConfig.name;
             const routePath = `${routeControllerConfig.basePath}${path}`;
-            this.router.get(routePath, this.forwardRequest(), (request, response, next) => __awaiter(this, void 0, void 0, function* () {
+            this.router.get(routePath, this.forwardRequest(), async (request, response, next) => {
                 try {
                     const controller = this.container.get(targetController);
                     if (!controller || !controller[propertyKey]) {
@@ -52,7 +43,7 @@ class RouteManager {
                     }
                     let context = new context_1.default(new authenticator_1.AnonymousUser());
                     if (isSecure && authenticator) {
-                        const user = yield authenticator.getUser(request);
+                        const user = await authenticator.getUser(request);
                         if (Array.isArray(role)) {
                             for (const r of role) {
                                 user.checkRole(r);
@@ -63,12 +54,12 @@ class RouteManager {
                         }
                         context = new context_1.default(user);
                     }
-                    yield controller[propertyKey](request, response, context);
+                    await controller[propertyKey](request, response, context);
                 }
                 catch (err) {
                     next(err);
                 }
-            }));
+            });
         });
         // Bind POST endpoints
         RouteManager.postMethodParams.forEach((params) => {
@@ -76,7 +67,7 @@ class RouteManager {
             const routeControllerConfig = RouteManager.routeControllers.get(target);
             const targetController = routeControllerConfig.name;
             const routePath = `${routeControllerConfig.basePath}${path}`;
-            this.router.post(routePath, this.forwardRequest(), (request, response, next) => __awaiter(this, void 0, void 0, function* () {
+            this.router.post(routePath, this.forwardRequest(), async (request, response, next) => {
                 try {
                     const controller = this.container.get(targetController);
                     if (!controller || !controller[propertyKey]) {
@@ -84,7 +75,7 @@ class RouteManager {
                     }
                     let context = new context_1.default(new authenticator_1.AnonymousUser());
                     if (isSecure && authenticator) {
-                        const user = yield authenticator.getUser(request);
+                        const user = await authenticator.getUser(request);
                         if (Array.isArray(role)) {
                             for (const r of role) {
                                 user.checkRole(r);
@@ -95,12 +86,12 @@ class RouteManager {
                         }
                         context = new context_1.default(user);
                     }
-                    yield controller[propertyKey](request, response, context);
+                    await controller[propertyKey](request, response, context);
                 }
                 catch (err) {
                     next(err);
                 }
-            }));
+            });
         });
         // BIND DELETE endpoints
         RouteManager.deleteMethodParams.forEach((params) => {
@@ -108,7 +99,7 @@ class RouteManager {
             const routeControllerConfig = RouteManager.routeControllers.get(target);
             const targetController = routeControllerConfig.name;
             const routePath = `${routeControllerConfig.basePath}${path}`;
-            this.router.delete(routePath, this.forwardRequest(), (request, response, next) => __awaiter(this, void 0, void 0, function* () {
+            this.router.delete(routePath, this.forwardRequest(), async (request, response, next) => {
                 try {
                     const controller = this.container.get(targetController);
                     if (!controller || !controller[propertyKey]) {
@@ -116,7 +107,7 @@ class RouteManager {
                     }
                     let context = new context_1.default(new authenticator_1.AnonymousUser());
                     if (isSecure && authenticator) {
-                        const user = yield authenticator.getUser(request);
+                        const user = await authenticator.getUser(request);
                         if (Array.isArray(role)) {
                             for (const r of role) {
                                 user.checkRole(r);
@@ -127,12 +118,12 @@ class RouteManager {
                         }
                         context = new context_1.default(user);
                     }
-                    yield controller[propertyKey](request, response, context);
+                    await controller[propertyKey](request, response, context);
                 }
                 catch (err) {
                     next(err);
                 }
-            }));
+            });
         });
         // BIND PUT endpoints
         RouteManager.putMethodParams.forEach((params) => {
@@ -140,7 +131,7 @@ class RouteManager {
             const routeControllerConfig = RouteManager.routeControllers.get(target);
             const targetController = routeControllerConfig.name;
             const routePath = `${routeControllerConfig.basePath}${path}`;
-            this.router.put(routePath, this.forwardRequest(), (request, response, next) => __awaiter(this, void 0, void 0, function* () {
+            this.router.put(routePath, this.forwardRequest(), async (request, response, next) => {
                 try {
                     const controller = this.container.get(targetController);
                     if (!controller || !controller[propertyKey]) {
@@ -148,7 +139,7 @@ class RouteManager {
                     }
                     let context = new context_1.default(new authenticator_1.AnonymousUser());
                     if (isSecure && authenticator) {
-                        const user = yield authenticator.getUser(request);
+                        const user = await authenticator.getUser(request);
                         if (Array.isArray(role)) {
                             for (const r of role) {
                                 user.checkRole(r);
@@ -159,12 +150,12 @@ class RouteManager {
                         }
                         context = new context_1.default(user);
                     }
-                    yield controller[propertyKey](request, response, context);
+                    await controller[propertyKey](request, response, context);
                 }
                 catch (err) {
                     next(err);
                 }
-            }));
+            });
         });
         // BIND PATCH endpoints
         RouteManager.patchMethodParams.forEach((params) => {
@@ -172,7 +163,7 @@ class RouteManager {
             const routeControllerConfig = RouteManager.routeControllers.get(target);
             const targetController = routeControllerConfig.name;
             const routePath = `${routeControllerConfig.basePath}${path}`;
-            this.router.patch(routePath, this.forwardRequest(), (request, response, next) => __awaiter(this, void 0, void 0, function* () {
+            this.router.patch(routePath, this.forwardRequest(), async (request, response, next) => {
                 try {
                     const controller = this.container.get(targetController);
                     if (!controller || !controller[propertyKey]) {
@@ -180,7 +171,7 @@ class RouteManager {
                     }
                     let context = new context_1.default(new authenticator_1.AnonymousUser());
                     if (isSecure && authenticator) {
-                        const user = yield authenticator.getUser(request);
+                        const user = await authenticator.getUser(request);
                         if (Array.isArray(role)) {
                             for (const r of role) {
                                 user.checkRole(r);
@@ -191,12 +182,12 @@ class RouteManager {
                         }
                         context = new context_1.default(user);
                     }
-                    yield controller[propertyKey](request, response, context);
+                    await controller[propertyKey](request, response, context);
                 }
                 catch (err) {
                     next(err);
                 }
-            }));
+            });
         });
     }
     forwardRequest() {
@@ -205,10 +196,10 @@ class RouteManager {
         };
     }
 }
-exports.default = RouteManager;
 RouteManager.getMethodParams = [];
 RouteManager.postMethodParams = [];
 RouteManager.deleteMethodParams = [];
 RouteManager.putMethodParams = [];
 RouteManager.patchMethodParams = [];
 RouteManager.routeControllers = new Map();
+exports.default = RouteManager;

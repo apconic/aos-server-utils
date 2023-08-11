@@ -16,3 +16,7 @@
 **Release 1.0.2**
 
 - Added decorators for Put and Patch HTTP request.
+
+**Release 1.0.3**
+
+- Upgraded packages.
