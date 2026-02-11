@@ -1,7 +1,7 @@
-import MethodParams from './method-params';
+import MethodParams from './method-params.js';
 import { Container } from 'inversify';
 import { Router } from 'express';
-import { Authenticator } from '../authenticator';
+import { Authenticator } from '../authenticator/index.js';
 export default class RouteManager {
     private static getMethodParams;
     private static postMethodParams;

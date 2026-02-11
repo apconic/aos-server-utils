@@ -18,8 +18,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MockAuthenticator = exports.HomeServerAuthenticator = void 0;
-const home_server_authenticator_1 = __importDefault(require("./home-server-authenticator"));
-exports.HomeServerAuthenticator = home_server_authenticator_1.default;
-const mock_authenticator_1 = __importDefault(require("./mock-authenticator"));
-exports.MockAuthenticator = mock_authenticator_1.default;
-__exportStar(require("./users"), exports);
+const home_server_authenticator_js_1 = __importDefault(require("./home-server-authenticator.js"));
+exports.HomeServerAuthenticator = home_server_authenticator_js_1.default;
+const mock_authenticator_js_1 = __importDefault(require("./mock-authenticator.js"));
+exports.MockAuthenticator = mock_authenticator_js_1.default;
+__exportStar(require("./users/index.js"), exports);

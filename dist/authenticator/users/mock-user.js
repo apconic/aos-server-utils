@@ -12,7 +12,7 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
 };
 var _MockUser_preferredUsername, _MockUser_businessUnits, _MockUser_transporterCode, _MockUser_currentBusinessUnit, _MockUser_userType, _MockUser_roles;
 Object.defineProperty(exports, "__esModule", { value: true });
-const constants_1 = require("./constants");
+const constants_js_1 = require("./constants.js");
 class MockUser {
     constructor(userDetails) {
         var _a, _b;
@@ -24,7 +24,7 @@ class MockUser {
         _MockUser_roles.set(this, void 0);
         __classPrivateFieldSet(this, _MockUser_preferredUsername, userDetails.preferredUsername, "f");
         __classPrivateFieldSet(this, _MockUser_businessUnits, (_a = userDetails.businessUnits) !== null && _a !== void 0 ? _a : [], "f");
-        __classPrivateFieldSet(this, _MockUser_userType, userDetails.type || constants_1.UserTypes.Normal, "f");
+        __classPrivateFieldSet(this, _MockUser_userType, userDetails.type || constants_js_1.UserTypes.Normal, "f");
         __classPrivateFieldSet(this, _MockUser_currentBusinessUnit, userDetails.currentBusinessUnit, "f");
         __classPrivateFieldSet(this, _MockUser_transporterCode, userDetails.transporterCode, "f");
         __classPrivateFieldSet(this, _MockUser_roles, (_b = userDetails.roles) !== null && _b !== void 0 ? _b : [], "f");
@@ -45,10 +45,10 @@ class MockUser {
         return __classPrivateFieldGet(this, _MockUser_businessUnits, "f").includes(buCode);
     }
     isTransporter() {
-        return __classPrivateFieldGet(this, _MockUser_userType, "f") === constants_1.UserTypes.Transporter;
+        return __classPrivateFieldGet(this, _MockUser_userType, "f") === constants_js_1.UserTypes.Transporter;
     }
     checkRole(roleName) {
-        return;
+        return false;
     }
 }
 _MockUser_preferredUsername = new WeakMap(), _MockUser_businessUnits = new WeakMap(), _MockUser_transporterCode = new WeakMap(), _MockUser_currentBusinessUnit = new WeakMap(), _MockUser_userType = new WeakMap(), _MockUser_roles = new WeakMap();

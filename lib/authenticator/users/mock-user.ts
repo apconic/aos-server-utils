@@ -1,5 +1,5 @@
-import { UserDetails, UserTypes } from './constants';
-import User from './user';
+import { UserDetails, UserTypes } from './constants.js';
+import User from './user.js';
 
 export default class MockUser implements User {
   #preferredUsername: string;
@@ -42,7 +42,7 @@ export default class MockUser implements User {
     return this.#userType === UserTypes.Transporter;
   }
 
-  public checkRole(roleName: string): void {
-    return;
+  public checkRole(roleName: string): boolean {
+    return false;
   }
 }

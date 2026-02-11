@@ -1,8 +1,9 @@
 import { Request } from 'express';
 import { GraphQLClient } from 'graphql-request';
-import Authenticator from './authenticator';
-import { HomeServerUser, UserTypes, User } from './users';
-import { trim, isString } from 'lodash';
+import Authenticator from './authenticator.js';
+import { HomeServerUser, UserTypes, User } from './users/index.js';
+import lodash from 'lodash';
+const { trim, isString } = lodash;
 
 class HomeServerAuthenticator implements Authenticator {
   private USER_SESSION_QUERY = `query UserSessionInfo($accessToken: String!) {

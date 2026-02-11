@@ -12,8 +12,7 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
 };
 var _HomeServerUser_preferredUsername, _HomeServerUser_businessUnits, _HomeServerUser_transporterCode, _HomeServerUser_userType, _HomeServerUser_currentBusinessUnit, _HomeServerUser_roles;
 Object.defineProperty(exports, "__esModule", { value: true });
-const constants_1 = require("./constants");
-const custom_errors_1 = require("../../custom-errors");
+const constants_js_1 = require("./constants.js");
 class HomeServerUser {
     constructor(userDetails) {
         var _a, _b;
@@ -25,7 +24,7 @@ class HomeServerUser {
         _HomeServerUser_roles.set(this, void 0);
         __classPrivateFieldSet(this, _HomeServerUser_preferredUsername, userDetails.preferredUsername, "f");
         __classPrivateFieldSet(this, _HomeServerUser_businessUnits, (_a = userDetails.businessUnits) !== null && _a !== void 0 ? _a : [], "f");
-        __classPrivateFieldSet(this, _HomeServerUser_userType, userDetails.type || constants_1.UserTypes.Normal, "f");
+        __classPrivateFieldSet(this, _HomeServerUser_userType, userDetails.type || constants_js_1.UserTypes.Normal, "f");
         __classPrivateFieldSet(this, _HomeServerUser_transporterCode, userDetails.transporterCode, "f");
         __classPrivateFieldSet(this, _HomeServerUser_currentBusinessUnit, userDetails.currentBusinessUnit, "f");
         __classPrivateFieldSet(this, _HomeServerUser_roles, (_b = userDetails.roles) !== null && _b !== void 0 ? _b : [], "f");
@@ -46,12 +45,13 @@ class HomeServerUser {
         return __classPrivateFieldGet(this, _HomeServerUser_businessUnits, "f").includes(buCode);
     }
     isTransporter() {
-        return __classPrivateFieldGet(this, _HomeServerUser_userType, "f") === constants_1.UserTypes.Transporter;
+        return __classPrivateFieldGet(this, _HomeServerUser_userType, "f") === constants_js_1.UserTypes.Transporter;
     }
     checkRole(roleName) {
         if (!__classPrivateFieldGet(this, _HomeServerUser_roles, "f").find((r) => r.name === roleName)) {
-            throw new custom_errors_1.AccessDeniedError(`User does not have appropriate role: "${roleName}" to access resource`);
+            return false;
         }
+        return true;
     }
 }
 _HomeServerUser_preferredUsername = new WeakMap(), _HomeServerUser_businessUnits = new WeakMap(), _HomeServerUser_transporterCode = new WeakMap(), _HomeServerUser_userType = new WeakMap(), _HomeServerUser_currentBusinessUnit = new WeakMap(), _HomeServerUser_roles = new WeakMap();

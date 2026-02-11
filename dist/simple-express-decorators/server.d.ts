@@ -1,6 +1,6 @@
 import { Application } from 'express';
 import { Container } from 'inversify';
-import { Authenticator } from '../authenticator';
+import { Authenticator } from '../authenticator/index.js';
 export default class Server {
     private port;
     private httpServer;

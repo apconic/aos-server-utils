@@ -1,4 +1,4 @@
-import { UserTypes } from './constants';
+import { UserTypes } from './constants.js';
 export default interface User {
     transporterCode?: string;
     username: string;
@@ -12,5 +12,5 @@ export default interface User {
      * @param {string} roleName
      * @memberof User
      */
-    checkRole(roleName: string): void;
+    checkRole(roleName: string): boolean;
 }

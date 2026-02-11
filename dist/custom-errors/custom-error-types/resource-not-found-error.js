@@ -11,6 +11,7 @@ class ResourceNotFoundError extends Error {
     }
     errorMessage() {
         return {
+            result: 'ERROR',
             message: this.message,
         };
     }

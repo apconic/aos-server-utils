@@ -1,5 +1,5 @@
-import RouteManager from './route-manager';
-import MethodParams from './method-params';
+import RouteManager from './route-manager.js';
+import MethodParams from './method-params.js';
 
 export function get(path: string, role?: string | string[], isSecure = true) {
   return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {

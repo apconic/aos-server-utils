@@ -1,8 +1,12 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const graphql_request_1 = require("graphql-request");
-const users_1 = require("./users");
-const lodash_1 = require("lodash");
+const index_js_1 = require("./users/index.js");
+const lodash_1 = __importDefault(require("lodash"));
+const { trim, isString } = lodash_1.default;
 class HomeServerAuthenticator {
     constructor() {
         this.USER_SESSION_QUERY = `query UserSessionInfo($accessToken: String!) {
@@ -45,7 +49,7 @@ class HomeServerAuthenticator {
         const type = this.getType(userSessionInfo);
         const currentBusinessUnitCode = this.getCurrentBU(request, businessUnits);
         const transporterCode = this.getTransporterCode(userSessionInfo, type);
-        return new users_1.HomeServerUser({
+        return new index_js_1.HomeServerUser({
             currentBusinessUnit: currentBusinessUnitCode,
             preferredUsername,
             businessUnits,
@@ -55,8 +59,8 @@ class HomeServerAuthenticator {
         });
     }
     getCurrentBU(req, businessUnits) {
-        const buCode = (0, lodash_1.trim)(req.headers['current-bu']);
-        if (!(0, lodash_1.isString)(buCode) || buCode.length === 0) {
+        const buCode = trim(req.headers['current-bu']);
+        if (!isString(buCode) || buCode.length === 0) {
             throw new Error("'current-bu' not present");
         }
         if (!businessUnits.includes(buCode)) {
@@ -66,7 +70,7 @@ class HomeServerAuthenticator {
     }
     getTransporterCode(userSessionInfo, userType) {
         const code = userSessionInfo.transporterCode;
-        if (userType === users_1.UserTypes.Transporter) {
+        if (userType === index_js_1.UserTypes.Transporter) {
             if (!code) {
                 throw new Error(`${userType} user has no 'transporterCode'`);
             }

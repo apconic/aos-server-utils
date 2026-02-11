@@ -1,4 +1,4 @@
-import { User } from '../authenticator';
+import { User } from '../authenticator/index.js';
 /**
  * Immutable Context class for global properties
  * @export

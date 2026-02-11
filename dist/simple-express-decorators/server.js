@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const route_manager_1 = __importDefault(require("./route-manager"));
+const route_manager_js_1 = __importDefault(require("./route-manager.js"));
 class Server {
     constructor(port, container) {
         this.routeManagers = new Map();
@@ -18,7 +18,7 @@ class Server {
     }
     createRouter(path, authenticator) {
         const router = express_1.default.Router();
-        const routeManager = new route_manager_1.default(router, this.container);
+        const routeManager = new route_manager_js_1.default(router, this.container);
         routeManager.configure(authenticator);
         this.routeManagers.set(path, routeManager);
         this.app.use(path, router);

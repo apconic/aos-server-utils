@@ -1,5 +1,5 @@
-import { UserDetails, UserTypes } from './constants';
-import User from './user';
+import { UserDetails, UserTypes } from './constants.js';
+import User from './user.js';
 export default class MockUser implements User {
     #private;
     constructor(userDetails: UserDetails);
@@ -9,5 +9,5 @@ export default class MockUser implements User {
     get username(): string;
     isInBU(buCode: string): boolean;
     isTransporter(): boolean;
-    checkRole(roleName: string): void;
+    checkRole(roleName: string): boolean;
 }

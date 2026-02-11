@@ -1,8 +1,8 @@
 import express, { Application } from 'express';
-import RouteManager from './route-manager';
+import RouteManager from './route-manager.js';
 import { Container } from 'inversify';
 import * as http from 'http';
-import { Authenticator } from '../authenticator';
+import { Authenticator } from '../authenticator/index.js';
 
 export default class Server {
   private port: any;

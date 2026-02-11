@@ -1,1 +1,1 @@
-export { errorHandler } from './express-error-handler';
+export { errorHandler } from './express-error-handler.js';

@@ -1,5 +1,4 @@
-import User from './user';
-import { AccessDeniedError } from '../../custom-errors';
+import User from './user.js';
 
 export default class AnonymousUser implements User {
   private currentBusinessUnit: any = null;
@@ -32,7 +31,7 @@ export default class AnonymousUser implements User {
     return false;
   }
 
-  public checkRole(roleName: string): void {
-    throw new AccessDeniedError(`User does not have appropriate role: "${roleName}" to access resource`);
+  public checkRole(roleName: string): boolean {
+    return false;
   }
 }

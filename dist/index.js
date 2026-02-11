@@ -15,6 +15,6 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 require("reflect-metadata");
-__exportStar(require("./custom-errors"), exports);
-__exportStar(require("./authenticator"), exports);
-__exportStar(require("./simple-express-decorators"), exports);
+__exportStar(require("./custom-errors/index.js"), exports);
+__exportStar(require("./authenticator/index.js"), exports);
+__exportStar(require("./simple-express-decorators/index.js"), exports);

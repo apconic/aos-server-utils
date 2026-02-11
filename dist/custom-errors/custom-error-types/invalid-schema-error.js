@@ -11,6 +11,7 @@ class InvalidSchemaError extends Error {
     }
     errorMessage() {
         return {
+            result: 'ERROR',
             message: this.message,
         };
     }

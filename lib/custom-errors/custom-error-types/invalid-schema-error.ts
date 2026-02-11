@@ -1,4 +1,4 @@
-import { CustomError, ErrorMessage } from './';
+import { CustomError, ErrorMessage } from './index.js';
 
 export class InvalidSchemaError extends Error implements CustomError {
   constructor(message: string) {
@@ -12,6 +12,7 @@ export class InvalidSchemaError extends Error implements CustomError {
 
   public errorMessage(): ErrorMessage {
     return {
+      result: 'ERROR',
       message: this.message,
     };
   }

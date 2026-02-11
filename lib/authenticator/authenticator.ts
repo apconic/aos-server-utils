@@ -1,4 +1,4 @@
-import { User } from './users';
+import { User } from './users/index.js';
 
 export default interface Authenticator {
   getMiddleware(): any;

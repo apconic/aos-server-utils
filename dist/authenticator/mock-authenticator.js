@@ -3,9 +3,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const users_1 = require("./users");
-const lodash_1 = require("lodash");
-const home_server_authenticator_1 = __importDefault(require("./home-server-authenticator"));
+const index_js_1 = require("./users/index.js");
+const lodash_1 = __importDefault(require("lodash"));
+const { trim, isString } = lodash_1.default;
+const home_server_authenticator_js_1 = __importDefault(require("./home-server-authenticator.js"));
 class MockAuthenticator {
     getMiddleware() {
         return [(request, response, next) => next()];
@@ -14,7 +15,7 @@ class MockAuthenticator {
         const accessToken = this.getAccessToken(request);
         if (accessToken) {
             // User real authenticator when there's access token
-            return new home_server_authenticator_1.default().getUser(request);
+            return new home_server_authenticator_js_1.default().getUser(request);
         }
         else {
             const preferredUsername = this.getUsername(request);
@@ -22,7 +23,7 @@ class MockAuthenticator {
             const type = this.getType(request);
             const currentBusinessUnitCode = this.getCurrentBU(request, businessUnits);
             const transporterCode = this.getTransporterCode(request, type);
-            return new users_1.MockUser({
+            return new index_js_1.MockUser({
                 currentBusinessUnit: currentBusinessUnitCode,
                 preferredUsername,
                 businessUnits,
@@ -32,8 +33,8 @@ class MockAuthenticator {
         }
     }
     getCurrentBU(req, businessUnits) {
-        let currentBU = (0, lodash_1.trim)(req.headers['current-bu']);
-        if (!(0, lodash_1.isString)(currentBU) || currentBU.length === 0) {
+        let currentBU = trim(req.headers['current-bu']);
+        if (!isString(currentBU) || currentBU.length === 0) {
             console.info("'current-bu' header not provided. Using value 'Primary'");
             currentBU = 'Primary';
         }
@@ -44,8 +45,8 @@ class MockAuthenticator {
     }
     getTransporterCode(request, userType) {
         const code = request.headers['transporter-code'];
-        if (userType === users_1.UserTypes.Transporter) {
-            if (!(0, lodash_1.isString)(code)) {
+        if (userType === index_js_1.UserTypes.Transporter) {
+            if (!isString(code)) {
                 throw new Error(`${userType} user has no 'transporter-code' header`);
             }
             return code;
@@ -54,8 +55,8 @@ class MockAuthenticator {
     getType(request) {
         const type = request.headers['user-type'];
         if (!type) {
-            console.info(`'user-type' header not provided. Using ${users_1.UserTypes.Normal}. Available values:${Object.values(users_1.UserTypes)}`);
-            return users_1.UserTypes.Normal;
+            console.info(`'user-type' header not provided. Using ${index_js_1.UserTypes.Normal}. Available values:${Object.values(index_js_1.UserTypes)}`);
+            return index_js_1.UserTypes.Normal;
         }
         return type;
     }
@@ -69,11 +70,11 @@ class MockAuthenticator {
     }
     getBusinessUnits(request) {
         const businessUnits = request.headers['business-units'];
-        if (!(0, lodash_1.isString)(businessUnits) || businessUnits.length === 0) {
+        if (!isString(businessUnits) || businessUnits.length === 0) {
             console.info("'business-units' header not provided. Using ['Primary'] business units");
             return ['Primary'];
         }
-        return businessUnits.split(',').map((code) => (0, lodash_1.trim)(code));
+        return businessUnits.split(',').map((code) => trim(code));
     }
     getAccessToken(request) {
         const authHeader = request.headers.authorization;

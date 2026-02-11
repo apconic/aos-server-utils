@@ -1,4 +1,4 @@
-import User from './user';
+import User from './user.js';
 export default class AnonymousUser implements User {
     private currentBusinessUnit;
     get transporterCode(): any;
@@ -8,5 +8,5 @@ export default class AnonymousUser implements User {
     get username(): string;
     isInBU(buCode: string): boolean;
     isTransporter(): boolean;
-    checkRole(roleName: string): void;
+    checkRole(roleName: string): boolean;
 }
