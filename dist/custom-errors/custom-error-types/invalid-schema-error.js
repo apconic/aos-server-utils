@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.InvalidSchemaError = void 0;
-class InvalidSchemaError extends Error {
+export class InvalidSchemaError extends Error {
     constructor(message) {
         super(message);
         Object.setPrototypeOf(this, InvalidSchemaError.prototype);
@@ -16,4 +13,3 @@ class InvalidSchemaError extends Error {
         };
     }
 }
-exports.InvalidSchemaError = InvalidSchemaError;

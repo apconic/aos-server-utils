@@ -1,6 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-class AnonymousUser {
+export default class AnonymousUser {
     constructor() {
         this.currentBusinessUnit = null;
     }
@@ -29,4 +27,3 @@ class AnonymousUser {
         return false;
     }
 }
-exports.default = AnonymousUser;

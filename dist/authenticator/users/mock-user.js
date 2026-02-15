@@ -1,4 +1,3 @@
-"use strict";
 var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (receiver, state, value, kind, f) {
     if (kind === "m") throw new TypeError("Private method is not writable");
     if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
@@ -11,11 +10,9 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
     return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
 };
 var _MockUser_preferredUsername, _MockUser_businessUnits, _MockUser_transporterCode, _MockUser_currentBusinessUnit, _MockUser_userType, _MockUser_roles;
-Object.defineProperty(exports, "__esModule", { value: true });
-const constants_js_1 = require("./constants.js");
+import { UserTypes } from './constants.js';
 class MockUser {
     constructor(userDetails) {
-        var _a, _b;
         _MockUser_preferredUsername.set(this, void 0);
         _MockUser_businessUnits.set(this, void 0);
         _MockUser_transporterCode.set(this, void 0);
@@ -23,11 +20,11 @@ class MockUser {
         _MockUser_userType.set(this, void 0);
         _MockUser_roles.set(this, void 0);
         __classPrivateFieldSet(this, _MockUser_preferredUsername, userDetails.preferredUsername, "f");
-        __classPrivateFieldSet(this, _MockUser_businessUnits, (_a = userDetails.businessUnits) !== null && _a !== void 0 ? _a : [], "f");
-        __classPrivateFieldSet(this, _MockUser_userType, userDetails.type || constants_js_1.UserTypes.Normal, "f");
+        __classPrivateFieldSet(this, _MockUser_businessUnits, userDetails.businessUnits ?? [], "f");
+        __classPrivateFieldSet(this, _MockUser_userType, userDetails.type || UserTypes.Normal, "f");
         __classPrivateFieldSet(this, _MockUser_currentBusinessUnit, userDetails.currentBusinessUnit, "f");
         __classPrivateFieldSet(this, _MockUser_transporterCode, userDetails.transporterCode, "f");
-        __classPrivateFieldSet(this, _MockUser_roles, (_b = userDetails.roles) !== null && _b !== void 0 ? _b : [], "f");
+        __classPrivateFieldSet(this, _MockUser_roles, userDetails.roles ?? [], "f");
     }
     get transporterCode() {
         return __classPrivateFieldGet(this, _MockUser_transporterCode, "f");
@@ -45,11 +42,11 @@ class MockUser {
         return __classPrivateFieldGet(this, _MockUser_businessUnits, "f").includes(buCode);
     }
     isTransporter() {
-        return __classPrivateFieldGet(this, _MockUser_userType, "f") === constants_js_1.UserTypes.Transporter;
+        return __classPrivateFieldGet(this, _MockUser_userType, "f") === UserTypes.Transporter;
     }
     checkRole(roleName) {
         return false;
     }
 }
 _MockUser_preferredUsername = new WeakMap(), _MockUser_businessUnits = new WeakMap(), _MockUser_transporterCode = new WeakMap(), _MockUser_currentBusinessUnit = new WeakMap(), _MockUser_userType = new WeakMap(), _MockUser_roles = new WeakMap();
-exports.default = MockUser;
+export default MockUser;

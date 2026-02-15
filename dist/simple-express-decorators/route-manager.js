@@ -1,11 +1,6 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const context_js_1 = __importDefault(require("./context.js"));
-const index_js_1 = require("../authenticator/index.js");
-const index_js_2 = require("../custom-errors/index.js");
+import Context from './context.js';
+import { AnonymousUser } from '../authenticator/index.js';
+import { AccessDeniedError } from '../custom-errors/index.js';
 class RouteManager {
     static registerRouteControllers(controllerName, params) {
         RouteManager.routeControllers.set(controllerName, params);
@@ -42,7 +37,7 @@ class RouteManager {
                     if (!controller || !controller[propertyKey]) {
                         return response.status(404).send({ message: 'Invalid path' });
                     }
-                    let context = new context_js_1.default(new index_js_1.AnonymousUser());
+                    let context = new Context(new AnonymousUser());
                     if (isSecure && authenticator) {
                         const user = await authenticator.getUser(request);
                         let isAuthorized = true;
@@ -61,9 +56,9 @@ class RouteManager {
                             errorRole = role;
                         }
                         if (!isAuthorized) {
-                            throw new index_js_2.AccessDeniedError(`User does not have appropriate role: "${errorRole}" to access resource`);
+                            throw new AccessDeniedError(`User does not have appropriate role: "${errorRole}" to access resource`);
                         }
-                        context = new context_js_1.default(user);
+                        context = new Context(user);
                     }
                     await controller[propertyKey](request, response, context);
                 }
@@ -84,7 +79,7 @@ class RouteManager {
                     if (!controller || !controller[propertyKey]) {
                         return response.status(404).send({ message: 'Invalid path' });
                     }
-                    let context = new context_js_1.default(new index_js_1.AnonymousUser());
+                    let context = new Context(new AnonymousUser());
                     if (isSecure && authenticator) {
                         const user = await authenticator.getUser(request);
                         let isAuthorized = true;
@@ -103,9 +98,9 @@ class RouteManager {
                             errorRole = role;
                         }
                         if (!isAuthorized) {
-                            throw new index_js_2.AccessDeniedError(`User does not have appropriate role: "${errorRole}" to access resource`);
+                            throw new AccessDeniedError(`User does not have appropriate role: "${errorRole}" to access resource`);
                         }
-                        context = new context_js_1.default(user);
+                        context = new Context(user);
                     }
                     await controller[propertyKey](request, response, context);
                 }
@@ -126,7 +121,7 @@ class RouteManager {
                     if (!controller || !controller[propertyKey]) {
                         return response.status(404).send({ message: 'Invalid path' });
                     }
-                    let context = new context_js_1.default(new index_js_1.AnonymousUser());
+                    let context = new Context(new AnonymousUser());
                     if (isSecure && authenticator) {
                         const user = await authenticator.getUser(request);
                         let isAuthorized = true;
@@ -145,9 +140,9 @@ class RouteManager {
                             errorRole = role;
                         }
                         if (!isAuthorized) {
-                            throw new index_js_2.AccessDeniedError(`User does not have appropriate role: "${errorRole}" to access resource`);
+                            throw new AccessDeniedError(`User does not have appropriate role: "${errorRole}" to access resource`);
                         }
-                        context = new context_js_1.default(user);
+                        context = new Context(user);
                     }
                     await controller[propertyKey](request, response, context);
                 }
@@ -168,7 +163,7 @@ class RouteManager {
                     if (!controller || !controller[propertyKey]) {
                         return response.status(404).send({ message: 'Invalid path' });
                     }
-                    let context = new context_js_1.default(new index_js_1.AnonymousUser());
+                    let context = new Context(new AnonymousUser());
                     if (isSecure && authenticator) {
                         const user = await authenticator.getUser(request);
                         let isAuthorized = true;
@@ -187,9 +182,9 @@ class RouteManager {
                             errorRole = role;
                         }
                         if (!isAuthorized) {
-                            throw new index_js_2.AccessDeniedError(`User does not have appropriate role: "${errorRole}" to access resource`);
+                            throw new AccessDeniedError(`User does not have appropriate role: "${errorRole}" to access resource`);
                         }
-                        context = new context_js_1.default(user);
+                        context = new Context(user);
                     }
                     await controller[propertyKey](request, response, context);
                 }
@@ -210,7 +205,7 @@ class RouteManager {
                     if (!controller || !controller[propertyKey]) {
                         return response.status(404).send({ message: 'Invalid path' });
                     }
-                    let context = new context_js_1.default(new index_js_1.AnonymousUser());
+                    let context = new Context(new AnonymousUser());
                     if (isSecure && authenticator) {
                         const user = await authenticator.getUser(request);
                         let isAuthorized = true;
@@ -229,9 +224,9 @@ class RouteManager {
                             errorRole = role;
                         }
                         if (!isAuthorized) {
-                            throw new index_js_2.AccessDeniedError(`User does not have appropriate role: "${errorRole}" to access resource`);
+                            throw new AccessDeniedError(`User does not have appropriate role: "${errorRole}" to access resource`);
                         }
-                        context = new context_js_1.default(user);
+                        context = new Context(user);
                     }
                     await controller[propertyKey](request, response, context);
                 }
@@ -253,4 +248,4 @@ RouteManager.deleteMethodParams = [];
 RouteManager.putMethodParams = [];
 RouteManager.patchMethodParams = [];
 RouteManager.routeControllers = new Map();
-exports.default = RouteManager;
+export default RouteManager;

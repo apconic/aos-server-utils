@@ -1,12 +1,9 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.errorHandler = errorHandler;
-const index_js_1 = require("../custom-error-types/index.js");
-function errorHandler(error, request, response, next) {
+import { InvalidSchemaError, ResourceNotFoundError, AccessDeniedError, } from '../custom-error-types/index.js';
+export function errorHandler(error, request, response, next) {
     switch (true) {
-        case error instanceof index_js_1.InvalidSchemaError:
-        case error instanceof index_js_1.ResourceNotFoundError:
-        case error instanceof index_js_1.AccessDeniedError:
+        case error instanceof InvalidSchemaError:
+        case error instanceof ResourceNotFoundError:
+        case error instanceof AccessDeniedError:
             response.status(error.httpCode()).json(error.errorMessage());
             break;
         case error.message.includes('User has no session'):

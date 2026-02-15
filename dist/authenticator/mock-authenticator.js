@@ -1,12 +1,7 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const index_js_1 = require("./users/index.js");
-const lodash_1 = __importDefault(require("lodash"));
-const { trim, isString } = lodash_1.default;
-const home_server_authenticator_js_1 = __importDefault(require("./home-server-authenticator.js"));
+import { UserTypes, MockUser } from './users/index.js';
+import lodash from 'lodash';
+const { trim, isString } = lodash;
+import HomeServerAuthenticator from './home-server-authenticator.js';
 class MockAuthenticator {
     getMiddleware() {
         return [(request, response, next) => next()];
@@ -15,7 +10,7 @@ class MockAuthenticator {
         const accessToken = this.getAccessToken(request);
         if (accessToken) {
             // User real authenticator when there's access token
-            return new home_server_authenticator_js_1.default().getUser(request);
+            return new HomeServerAuthenticator().getUser(request);
         }
         else {
             const preferredUsername = this.getUsername(request);
@@ -23,7 +18,7 @@ class MockAuthenticator {
             const type = this.getType(request);
             const currentBusinessUnitCode = this.getCurrentBU(request, businessUnits);
             const transporterCode = this.getTransporterCode(request, type);
-            return new index_js_1.MockUser({
+            return new MockUser({
                 currentBusinessUnit: currentBusinessUnitCode,
                 preferredUsername,
                 businessUnits,
@@ -45,7 +40,7 @@ class MockAuthenticator {
     }
     getTransporterCode(request, userType) {
         const code = request.headers['transporter-code'];
-        if (userType === index_js_1.UserTypes.Transporter) {
+        if (userType === UserTypes.Transporter) {
             if (!isString(code)) {
                 throw new Error(`${userType} user has no 'transporter-code' header`);
             }
@@ -55,8 +50,8 @@ class MockAuthenticator {
     getType(request) {
         const type = request.headers['user-type'];
         if (!type) {
-            console.info(`'user-type' header not provided. Using ${index_js_1.UserTypes.Normal}. Available values:${Object.values(index_js_1.UserTypes)}`);
-            return index_js_1.UserTypes.Normal;
+            console.info(`'user-type' header not provided. Using ${UserTypes.Normal}. Available values:${Object.values(UserTypes)}`);
+            return UserTypes.Normal;
         }
         return type;
     }
@@ -84,4 +79,4 @@ class MockAuthenticator {
         return authHeader.substring('Bearer '.length);
     }
 }
-exports.default = MockAuthenticator;
+export default MockAuthenticator;

@@ -1,17 +1,4 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.patch = exports.put = exports.del = exports.post = exports.get = exports.controller = exports.Context = exports.Server = void 0;
-const server_js_1 = __importDefault(require("./server.js"));
-exports.Server = server_js_1.default;
-const context_js_1 = __importDefault(require("./context.js"));
-exports.Context = context_js_1.default;
-const route_decorators_js_1 = require("./route-decorators.js");
-Object.defineProperty(exports, "controller", { enumerable: true, get: function () { return route_decorators_js_1.controller; } });
-Object.defineProperty(exports, "get", { enumerable: true, get: function () { return route_decorators_js_1.get; } });
-Object.defineProperty(exports, "post", { enumerable: true, get: function () { return route_decorators_js_1.post; } });
-Object.defineProperty(exports, "del", { enumerable: true, get: function () { return route_decorators_js_1.del; } });
-Object.defineProperty(exports, "put", { enumerable: true, get: function () { return route_decorators_js_1.put; } });
-Object.defineProperty(exports, "patch", { enumerable: true, get: function () { return route_decorators_js_1.patch; } });
+import Server from './server.js';
+import Context from './context.js';
+import { controller, get, post, del, put, patch } from './route-decorators.js';
+export { Server, Context, controller, get, post, del, put, patch };

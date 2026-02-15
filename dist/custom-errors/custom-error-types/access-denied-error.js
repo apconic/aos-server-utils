@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.AccessDeniedError = void 0;
-class AccessDeniedError extends Error {
+export class AccessDeniedError extends Error {
     constructor(message) {
         super(message);
         Object.setPrototypeOf(this, AccessDeniedError.prototype);
@@ -16,4 +13,3 @@ class AccessDeniedError extends Error {
         };
     }
 }
-exports.AccessDeniedError = AccessDeniedError;
