@@ -1,8 +1,9 @@
-import MethodParams from './method-params';
+import MethodParams from './method-params.js';
 import { Container } from 'inversify';
 import { Request, Response, NextFunction, Router } from 'express';
-import Context from './context';
-import { Authenticator, AnonymousUser } from '../authenticator';
+import Context from './context.js';
+import { Authenticator, AnonymousUser } from '../authenticator/index.js';
+import { AccessDeniedError } from '../custom-errors/index.js';
 
 export default class RouteManager {
   private static getMethodParams: MethodParams[] = [];
@@ -63,12 +64,23 @@ export default class RouteManager {
             let context = new Context(new AnonymousUser());
             if (isSecure && authenticator) {
               const user = await authenticator.getUser(request);
+              let isAuthorized = true;
+              let errorRole = '';
               if (Array.isArray(role)) {
                 for (const r of role) {
-                  user.checkRole(r);
+                  isAuthorized = user.checkRole(r);
+                  if (!isAuthorized) {
+                    errorRole = r;
+                    break;
+                  }
                 }
               } else if (role) {
-                user.checkRole(role);
+                isAuthorized = user.checkRole(role);
+                errorRole = role;
+              }
+
+              if (!isAuthorized) {
+                throw new AccessDeniedError(`User does not have appropriate role: "${errorRole}" to access resource`);
               }
 
               context = new Context(user);
@@ -101,12 +113,23 @@ export default class RouteManager {
             let context = new Context(new AnonymousUser());
             if (isSecure && authenticator) {
               const user = await authenticator.getUser(request);
+              let isAuthorized = true;
+              let errorRole = '';
               if (Array.isArray(role)) {
                 for (const r of role) {
-                  user.checkRole(r);
+                  isAuthorized = user.checkRole(r);
+                  if (!isAuthorized) {
+                    errorRole = r;
+                    break;
+                  }
                 }
               } else if (role) {
-                user.checkRole(role);
+                isAuthorized = user.checkRole(role);
+                errorRole = role;
+              }
+
+              if (!isAuthorized) {
+                throw new AccessDeniedError(`User does not have appropriate role: "${errorRole}" to access resource`);
               }
 
               context = new Context(user);
@@ -139,12 +162,23 @@ export default class RouteManager {
             let context = new Context(new AnonymousUser());
             if (isSecure && authenticator) {
               const user = await authenticator.getUser(request);
+              let isAuthorized = true;
+              let errorRole = '';
               if (Array.isArray(role)) {
                 for (const r of role) {
-                  user.checkRole(r);
+                  isAuthorized = user.checkRole(r);
+                  if (!isAuthorized) {
+                    errorRole = r;
+                    break;
+                  }
                 }
               } else if (role) {
-                user.checkRole(role);
+                isAuthorized = user.checkRole(role);
+                errorRole = role;
+              }
+
+              if (!isAuthorized) {
+                throw new AccessDeniedError(`User does not have appropriate role: "${errorRole}" to access resource`);
               }
 
               context = new Context(user);
@@ -177,12 +211,23 @@ export default class RouteManager {
             let context = new Context(new AnonymousUser());
             if (isSecure && authenticator) {
               const user = await authenticator.getUser(request);
+              let isAuthorized = true;
+              let errorRole = '';
               if (Array.isArray(role)) {
                 for (const r of role) {
-                  user.checkRole(r);
+                  isAuthorized = user.checkRole(r);
+                  if (!isAuthorized) {
+                    errorRole = r;
+                    break;
+                  }
                 }
               } else if (role) {
-                user.checkRole(role);
+                isAuthorized = user.checkRole(role);
+                errorRole = role;
+              }
+
+              if (!isAuthorized) {
+                throw new AccessDeniedError(`User does not have appropriate role: "${errorRole}" to access resource`);
               }
 
               context = new Context(user);
@@ -215,12 +260,23 @@ export default class RouteManager {
             let context = new Context(new AnonymousUser());
             if (isSecure && authenticator) {
               const user = await authenticator.getUser(request);
+              let isAuthorized = true;
+              let errorRole = '';
               if (Array.isArray(role)) {
                 for (const r of role) {
-                  user.checkRole(r);
+                  isAuthorized = user.checkRole(r);
+                  if (!isAuthorized) {
+                    errorRole = r;
+                    break;
+                  }
                 }
               } else if (role) {
-                user.checkRole(role);
+                isAuthorized = user.checkRole(role);
+                errorRole = role;
+              }
+
+              if (!isAuthorized) {
+                throw new AccessDeniedError(`User does not have appropriate role: "${errorRole}" to access resource`);
               }
 
               context = new Context(user);

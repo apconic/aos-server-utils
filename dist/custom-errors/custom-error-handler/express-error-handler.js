@@ -1,22 +1,19 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.errorHandler = void 0;
-const custom_error_types_1 = require("../custom-error-types");
-function errorHandler(error, request, response, next) {
+import { InvalidSchemaError, ResourceNotFoundError, AccessDeniedError, } from '../custom-error-types/index.js';
+export function errorHandler(error, request, response, next) {
     switch (true) {
-        case error instanceof custom_error_types_1.InvalidSchemaError:
-        case error instanceof custom_error_types_1.ResourceNotFoundError:
-        case error instanceof custom_error_types_1.AccessDeniedError:
+        case error instanceof InvalidSchemaError:
+        case error instanceof ResourceNotFoundError:
+        case error instanceof AccessDeniedError:
             response.status(error.httpCode()).json(error.errorMessage());
             break;
         case error.message.includes('User has no session'):
             error.message = 'Authentication failed. User was not logged in.';
-            response.status(403).json({ message: 'User is not logged in' });
+            response.status(403).json({ result: 'ERROR', message: 'User is not logged in' });
             break;
         default:
             response.status(500).json({
+                result: 'ERROR',
                 message: 'Internal server error',
             });
     }
 }
-exports.errorHandler = errorHandler;

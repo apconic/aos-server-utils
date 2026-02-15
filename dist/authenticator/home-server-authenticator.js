@@ -1,8 +1,7 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const graphql_request_1 = require("graphql-request");
-const users_1 = require("./users");
-const lodash_1 = require("lodash");
+import { GraphQLClient } from 'graphql-request';
+import { HomeServerUser, UserTypes } from './users/index.js';
+import lodash from 'lodash';
+const { trim, isString } = lodash;
 class HomeServerAuthenticator {
     constructor() {
         this.USER_SESSION_QUERY = `query UserSessionInfo($accessToken: String!) {
@@ -30,7 +29,7 @@ class HomeServerAuthenticator {
         if (!process.env.HOME_GRAPHQL_AUTHENTICATION_URL) {
             throw new Error('HOME_GRAPHQL_AUTHENTICATION_URL environment variable not found in .env. Refer example env.');
         }
-        const graphqlClient = new graphql_request_1.GraphQLClient(process.env.HOME_GRAPHQL_AUTHENTICATION_URL);
+        const graphqlClient = new GraphQLClient(process.env.HOME_GRAPHQL_AUTHENTICATION_URL);
         let response = null;
         try {
             response = await graphqlClient.request(this.USER_SESSION_QUERY, { accessToken });
@@ -39,13 +38,13 @@ class HomeServerAuthenticator {
             console.error(err);
             throw new Error('Error encountered on session query of home server. Refer logs.');
         }
-        const { userSessionInfo } = response !== null && response !== void 0 ? response : {};
+        const { userSessionInfo } = response ?? {};
         const preferredUsername = this.getUsername(userSessionInfo);
         const businessUnits = this.getBusinessUnits(userSessionInfo);
         const type = this.getType(userSessionInfo);
         const currentBusinessUnitCode = this.getCurrentBU(request, businessUnits);
         const transporterCode = this.getTransporterCode(userSessionInfo, type);
-        return new users_1.HomeServerUser({
+        return new HomeServerUser({
             currentBusinessUnit: currentBusinessUnitCode,
             preferredUsername,
             businessUnits,
@@ -55,8 +54,8 @@ class HomeServerAuthenticator {
         });
     }
     getCurrentBU(req, businessUnits) {
-        const buCode = (0, lodash_1.trim)(req.headers['current-bu']);
-        if (!(0, lodash_1.isString)(buCode) || buCode.length === 0) {
+        const buCode = trim(req.headers['current-bu']);
+        if (!isString(buCode) || buCode.length === 0) {
             throw new Error("'current-bu' not present");
         }
         if (!businessUnits.includes(buCode)) {
@@ -66,7 +65,7 @@ class HomeServerAuthenticator {
     }
     getTransporterCode(userSessionInfo, userType) {
         const code = userSessionInfo.transporterCode;
-        if (userType === users_1.UserTypes.Transporter) {
+        if (userType === UserTypes.Transporter) {
             if (!code) {
                 throw new Error(`${userType} user has no 'transporterCode'`);
             }
@@ -80,7 +79,7 @@ class HomeServerAuthenticator {
         return userSessionInfo.userType;
     }
     getUsername(userSessionInfo) {
-        if (!(userSessionInfo === null || userSessionInfo === void 0 ? void 0 : userSessionInfo.username)) {
+        if (!userSessionInfo?.username) {
             console.error(`No user session found. Received response:${userSessionInfo}`);
             throw new Error('User has no session');
         }
@@ -100,4 +99,4 @@ class HomeServerAuthenticator {
         }
     }
 }
-exports.default = HomeServerAuthenticator;
+export default HomeServerAuthenticator;

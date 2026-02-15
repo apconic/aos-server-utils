@@ -1,8 +1,9 @@
-import Authenticator from './authenticator';
+import Authenticator from './authenticator.js';
 import { Request } from 'express';
-import { UserTypes, User, MockUser } from './users';
-import { isString, trim } from 'lodash';
-import HomeServerAuthenticator from './home-server-authenticator';
+import { UserTypes, User, MockUser } from './users/index.js';
+import lodash from 'lodash';
+const { trim, isString } = lodash;
+import HomeServerAuthenticator from './home-server-authenticator.js';
 
 class MockAuthenticator implements Authenticator {
   public getMiddleware() {

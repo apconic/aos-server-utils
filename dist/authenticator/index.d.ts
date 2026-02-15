@@ -1,5 +1,5 @@
-import HomeServerAuthenticator from './home-server-authenticator';
-import MockAuthenticator from './mock-authenticator';
-import Authenticator from './authenticator';
-export * from './users';
+import HomeServerAuthenticator from './home-server-authenticator.js';
+import MockAuthenticator from './mock-authenticator.js';
+import Authenticator from './authenticator.js';
+export * from './users/index.js';
 export { HomeServerAuthenticator, MockAuthenticator, Authenticator };

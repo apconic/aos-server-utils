@@ -1,6 +1,5 @@
-import { UserDetails, UserTypes } from './constants';
-import User from './user';
-import { AccessDeniedError } from '../../custom-errors';
+import { UserDetails, UserTypes } from './constants.js';
+import User from './user.js';
 
 export default class HomeServerUser implements User {
   #preferredUsername: string;
@@ -43,9 +42,11 @@ export default class HomeServerUser implements User {
     return this.#userType === UserTypes.Transporter;
   }
 
-  public checkRole(roleName: string): void {
+  public checkRole(roleName: string): boolean {
     if (!this.#roles.find((r) => r.name === roleName)) {
-      throw new AccessDeniedError(`User does not have appropriate role: "${roleName}" to access resource`);
+      return false;
     }
+
+    return true;
   }
 }

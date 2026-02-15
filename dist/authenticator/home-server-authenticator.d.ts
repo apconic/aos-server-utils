@@ -1,6 +1,6 @@
 import { Request } from 'express';
-import Authenticator from './authenticator';
-import { User } from './users';
+import Authenticator from './authenticator.js';
+import { User } from './users/index.js';
 declare class HomeServerAuthenticator implements Authenticator {
     private USER_SESSION_QUERY;
     getMiddleware(): ((request: any, response: any, next: any) => any)[];

@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const custom_errors_1 = require("../../custom-errors");
-class AnonymousUser {
+export default class AnonymousUser {
     constructor() {
         this.currentBusinessUnit = null;
     }
@@ -27,7 +24,6 @@ class AnonymousUser {
         return false;
     }
     checkRole(roleName) {
-        throw new custom_errors_1.AccessDeniedError(`User does not have appropriate role: "${roleName}" to access resource`);
+        return false;
     }
 }
-exports.default = AnonymousUser;

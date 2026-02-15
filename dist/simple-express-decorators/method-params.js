@@ -1,6 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-class MethodParams {
+export default class MethodParams {
     constructor(target, path, propertyKey, role, isSecure = true) {
         this.target = target;
         this.path = path;
@@ -9,4 +7,3 @@ class MethodParams {
         this.isSecure = isSecure;
     }
 }
-exports.default = MethodParams;
